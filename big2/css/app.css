@@ -1,0 +1,20 @@
+/*
+ * Guy's Night Out
+ * Big 2 - Score Calculator
+ */
+
+body {
+}
+
+th,
+td {
+    text-align: center;
+}
+
+tr.last-row {
+    font-weight: bold;
+}
+
+.table > tbody > tr.last-row td {
+    border-top: 2px solid #696969;
+}
