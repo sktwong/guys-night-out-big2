@@ -22,47 +22,26 @@
             <thead>
                 <tr class="players" ng-click="editPlayers()">
                     <th>Game #</th>
-                    <th ng-bind="players.one || '-'"></th>
-                    <th ng-bind="players.two || '-'"></th>
-                    <th ng-bind="players.three || '-'"></th>
-                    <th ng-bind="players.four || '-'"></th>
+                    <th class="player1" ng-bind="players.one || 'Player 1'"></th>
+                    <th class="player2" ng-bind="players.two || 'Player 2'"></th>
+                    <th class="player3" ng-bind="players.three || 'Player 3'"></th>
+                    <th class="player4" ng-bind="players.four || 'Player 4'"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="scores" ng-click="editScores()">
-                    <td>1</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>-15</td>
-                </tr>
-                <tr class="scores" ng-click="editScores()">
-                    <td>2</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>-15</td>
-                </tr>
-                <tr class="scores" ng-click="editScores()">
-                    <td>3</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>-15</td>
-                </tr>
-                <tr class="scores" ng-click="editScores()">
-                    <td>4</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
+                <tr ng-repeat="game in scores" class="scores" ng-click="editScores(game)">
+                    <td>{{ game.id }}</td>
+                    <td>{{ game.player1 }}</td>
+                    <td>{{ game.player2 }}</td>
+                    <td>{{ game.player3 }}</td>
+                    <td>{{ game.player4 }}</td>
                 </tr>
                 <tr class="last-row info">
                     <td>Total</td>
-                    <td>15</td>
-                    <td>15</td>
-                    <td>15</td>
-                    <td>-45</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
                 </tr>
             </tbody>
         </table>
@@ -80,31 +59,31 @@
                             <div class="form-group">
                                 <label for="player1" class="col-sm-4 control-label">Player 1</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="player1">
+                                    <input type="text" class="form-control player1">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player2" class="col-sm-4 control-label">Player 2</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="player2">
+                                    <input type="text" class="form-control player2">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player3" class="col-sm-4 control-label">Player 3</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="player3">
+                                    <input type="text" class="form-control player3">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player4" class="col-sm-4 control-label">Player 4</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="player4">
+                                    <input type="text" class="form-control player4">
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
                         <button type="button" id="save-players" class="btn btn-primary" ng-click="savePlayers()">Save</button>
                     </div>
                 </div>
@@ -117,39 +96,39 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                        <h4 class="modal-title">Edit Scores</h4>
+                        <h4 class="modal-title">Game <span id="edit-scores-id"></span></h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label for="player1" class="col-sm-4 control-label">Player 1</label>
+                                <label for="player1" class="col-sm-4 control-label player1">Player 1</label>
                                 <div class="col-sm-4">
-                                    <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" class="form-control" id="player1" value="">
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player1" value="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="player2" class="col-sm-4 control-label">Player 2</label>
+                                <label for="player2" class="col-sm-4 control-label player2">Player 2</label>
                                 <div class="col-sm-4">
-                                    <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" class="form-control" id="player2" value="">
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player2" value="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="player3" class="col-sm-4 control-label">Player 3</label>
+                                <label for="player3" class="col-sm-4 control-label player3">Player 3</label>
                                 <div class="col-sm-4">
-                                    <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" class="form-control" id="player3" value="">
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player3" value="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="player4" class="col-sm-4 control-label">Player 4</label>
+                                <label for="player4" class="col-sm-4 control-label player4">Player 4</label>
                                 <div class="col-sm-4">
-                                    <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" class="form-control" id="player4" value="">
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player4" value="">
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="button" id="save-scores" class="btn btn-primary">Save</button>
+                        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+                        <button type="button" id="save-scores" class="btn btn-primary" ng-click="saveScores()" disabled>Save</button>
                     </div>
                 </div>
             </div>

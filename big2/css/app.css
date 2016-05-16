@@ -2,7 +2,9 @@
  * Guy's Night Out
  * Big 2 - Score Calculator
  */
-body {
+body.modal-open {
+    position: fixed;
+    width: 100%;
 }
 
 th,
@@ -42,6 +44,14 @@ tr.last-row {
     padding-top: 7px;
     margin-bottom: 0;
     text-align: right;    
+}
+
+/* Hide number input arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 @media (max-width: 320px) {
