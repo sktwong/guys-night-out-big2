@@ -20,7 +20,7 @@
     <div class="container">
         <h1>Big 2 Calculator</h1>
 
-        <button type="button" ng-click="newGame()">New Game</button>
+        <button class="btn btn-info" type="button" ng-click="newGame()">New Game</button>
 
         <table class="table table-striped">
             <thead>
@@ -42,10 +42,10 @@
                 </tr>
                 <tr class="last-row info">
                     <td>Total</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td>{{ totals.player1 || '-' }}</td>
+                    <td>{{ totals.player2 || '-' }}</td>
+                    <td>{{ totals.player3 || '-' }}</td>
+                    <td>{{ totals.player4 || '-' }}</td>
                 </tr>
             </tbody>
         </table>

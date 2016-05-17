@@ -17,6 +17,10 @@ tr.last-row {
     font-weight: bold;
 }
 
+.table {
+    margin-top: 10px;
+}
+
 .table > tbody > tr.last-row td {
     border-top: 2px solid #696969;
 }

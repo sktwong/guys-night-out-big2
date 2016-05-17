@@ -18,6 +18,7 @@
     var gameData = {}; // Game data object, used for data storage
     $scope.players = {}; // Player names
     $scope.scores = []; // All game scores
+    $scope.totals = {}; // All game score totals
 
     // Initialize app
     init();
@@ -35,6 +36,7 @@
         $scope.players = gameData.players;
         $scope.scores = gameData.scores;
         saveCookieData();
+        updateScoreTotals();
     }
 
     // Initializes game data
@@ -170,6 +172,9 @@
         // Save latest game data to cookie
         saveCookieData();
 
+        // Update score totals
+        updateScoreTotals();
+
         $('#edit-scores').modal('hide');
     }
 
@@ -248,6 +253,28 @@
         score.player3 = allScores[2];
         score.player4 = allScores[3];
         return score;
+    }
+
+    // Updates score totals
+    function updateScoreTotals() {
+        var sumPlayer1 = 0;
+        var sumPlayer2 = 0;
+        var sumPlayer3 = 0;
+        var sumPlayer4 = 0;
+
+        angular.forEach($scope.scores, function(val, key) {
+            sumPlayer1 += parseInt(val.player1 || 0);
+            sumPlayer2 += parseInt(val.player2 || 0);
+            sumPlayer3 += parseInt(val.player3 || 0);
+            sumPlayer4 += parseInt(val.player4 || 0);
+        });
+
+        $scope.totals = {
+            'player1': sumPlayer1,
+            'player2': sumPlayer2,
+            'player3': sumPlayer3,
+            'player4': sumPlayer4
+        };
     }
 
     // Saves cookie data
