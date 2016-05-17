@@ -2,37 +2,76 @@
  * Guy's Night Out
  * Big 2 - Score Calculator
  */
- var big2App = angular.module('big2App',[]);
- big2App.controller('Big2Controller', ['$scope', Big2ControllerFn]);
+ var big2App = angular.module('big2App', ['ngCookies']);
+ big2App.controller('Big2Controller', ['$scope', '$cookies', Big2ControllerFn]);
 
- function Big2ControllerFn ($scope) {
+ function Big2ControllerFn($scope, $cookies) {
 
     // Available functions
     $scope.editPlayers = editPlayers;
     $scope.savePlayers = savePlayers;
     $scope.editScores = editScores;
     $scope.saveScores = saveScores;
+    $scope.newGame = newGame;
 
     // Data objects
+    var gameData = {}; // Game data object, used for data storage
     $scope.players = {}; // Player names
-    $scope.scores = {}; // Scores
-    $scope.scores = [
-        {
-            'id': '1',
-            'player1': '',
-            'player2': '',
-            'player3': '',
-            'player4': ''
+    $scope.scores = []; // All game scores
+
+    // Initialize app
+    init();
+
+    // Initializes app
+    // - loads an existing game if found
+    // - starts a new game if none is found
+    function init() {
+
+        // Use data from cookies if exists
+        gameData = getCookieData();
+        if (!gameData) {
+            gameData = initGameData();
         }
-    ];
+        $scope.players = gameData.players;
+        $scope.scores = gameData.scores;
+        saveCookieData();
+    }
+
+    // Initializes game data
+    function initGameData() {
+        var data = {
+            'players': {
+                'player1': '',
+                'player2': '',
+                'player3': '',
+                'player4': ''
+            },
+            'scores': [{
+                'id': '1',
+                'player1': '',
+                'player2': '',
+                'player3': '',
+                'player4': ''
+            }]
+        };
+        return data;
+    }
+
+    // New game
+    function newGame() {
+        gameData = initGameData();
+        $scope.players = gameData.players;
+        $scope.scores = gameData.scores;
+        saveCookieData();
+    }
 
     // Displays edit players modal
     function editPlayers() {
         // Set player names if present
-        $('#edit-players .player1').val($scope.players.one);
-        $('#edit-players .player2').val($scope.players.two);
-        $('#edit-players .player3').val($scope.players.three);
-        $('#edit-players .player4').val($scope.players.four);
+        $('#edit-players .player1').val($scope.players.player1);
+        $('#edit-players .player2').val($scope.players.player2);
+        $('#edit-players .player3').val($scope.players.player3);
+        $('#edit-players .player4').val($scope.players.player4);
 
         // Show modal
         $('#edit-players').modal('show');
@@ -47,10 +86,13 @@
 
     // Saves player names to scope, then closes modal
     function savePlayers() {
-        $scope.players.one = $('#edit-players .player1').val();
-        $scope.players.two = $('#edit-players .player2').val();
-        $scope.players.three = $('#edit-players .player3').val();
-        $scope.players.four = $('#edit-players .player4').val();
+        $scope.players.player1 = $('#edit-players .player1').val();
+        $scope.players.player2 = $('#edit-players .player2').val();
+        $scope.players.player3 = $('#edit-players .player3').val();
+        $scope.players.player4 = $('#edit-players .player4').val();
+
+        // Save latest game data to cookie
+        saveCookieData();
 
         $('#edit-players').modal('hide');
     }
@@ -102,8 +144,6 @@
 
         // Calculate individual / total scores
         var score = calculateScore();
-        console.log('score', score);
-
         var game = {
             'id': gameId,
             'player1': score.player1,
@@ -126,6 +166,9 @@
             }
             $scope.scores.push(newGame);
         }
+
+        // Save latest game data to cookie
+        saveCookieData();
 
         $('#edit-scores').modal('hide');
     }
@@ -205,5 +248,23 @@
         score.player3 = allScores[2];
         score.player4 = allScores[3];
         return score;
+    }
+
+    // Saves cookie data
+    function saveCookieData() {
+        // Update game data with latest scope data
+        gameData.players = $scope.players;
+        gameData.scores = $scope.scores;
+ 
+        // Set expiration date to future
+        var now = new Date();
+        var expiryDate = new Date(now.getFullYear()+20, now.getMonth(), now.getDate());
+        $cookies.putObject('guysNightOut-big2', gameData, { expires: expiryDate });
+    }
+
+    // Gets cookie data
+    function getCookieData() {
+        var cookieData = $cookies.getObject('guysNightOut-big2');
+        return cookieData;
     }
 }

@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Big 2 - Score Calculator</title>
-    
+
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <link rel="stylesheet" href="css/bootstrap.3.3.6.min.css">
@@ -12,20 +13,23 @@
     <script src="js/jquery.1.12.2.min.js"></script>
     <script src="js/bootstrap.3.3.6.min.js"></script>
     <script src="js/angular.1.4.5.min.js"></script>
+    <script src="js/angular-cookies.1.4.5.min.js"></script>
     <script src="js/app.js"></script>
 </head>
 <body ng-app="big2App" ng-controller="Big2Controller">
     <div class="container">
         <h1>Big 2 Calculator</h1>
 
+        <button type="button" ng-click="newGame()">New Game</button>
+
         <table class="table table-striped">
             <thead>
                 <tr class="players" ng-click="editPlayers()">
                     <th>Game #</th>
-                    <th class="player1" ng-bind="players.one || 'Player 1'"></th>
-                    <th class="player2" ng-bind="players.two || 'Player 2'"></th>
-                    <th class="player3" ng-bind="players.three || 'Player 3'"></th>
-                    <th class="player4" ng-bind="players.four || 'Player 4'"></th>
+                    <th class="player1" ng-bind="players.player1 || 'Player 1'"></th>
+                    <th class="player2" ng-bind="players.player2 || 'Player 2'"></th>
+                    <th class="player3" ng-bind="players.player3 || 'Player 3'"></th>
+                    <th class="player4" ng-bind="players.player4 || 'Player 4'"></th>
                 </tr>
             </thead>
             <tbody>
