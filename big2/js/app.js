@@ -70,23 +70,29 @@
         $('#edit-scores input.player3').val(game.player3);
         $('#edit-scores input.player4').val(game.player4);
 
-        // Show modal
+        // Show modal and set Save button disable status
         $('#edit-scores').modal('show');
+        setSaveDisableStatus();
 
         // Enable save button if score validation passes
         // - validate after each number entry
         $('#edit-scores').keyup(function(e) {
-            if (isScoreValid()) {
-                $('#save-scores').prop('disabled', false);
+            setSaveDisableStatus();
 
-                // Allow enter key to save
-                if (e.which == 13) {
-                    $('#save-scores').click();
-                }
-            } else {
-                $('#save-scores').prop('disabled', true);
+            // Allow enter key to save
+            if (isScoreValid() && e.which == 13) {
+                $('#save-scores').click();
             }
         });
+    }
+
+    // Toggles disabled status of Save button
+    function setSaveDisableStatus() {
+        if (isScoreValid()) {
+            $('#save-scores').prop('disabled', false);
+        } else {
+            $('#save-scores').prop('disabled', true);
+        }
     }
 
     // Saves scores to scope, then closes modal
