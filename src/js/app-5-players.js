@@ -14,12 +14,14 @@
     $scope.saveScores = saveScores;
     $scope.newGame = newGame;
     $scope.newGameModal = newGameModal;
+    $scope.toggleTotals = toggleTotals;
 
     // Data objects
     var gameData = {}; // Game data object, used for data storage
     $scope.players = {}; // Player names
     $scope.scores = []; // All game scores
     $scope.totals = {}; // All game score totals
+    $scope.hideTotals = true;
 
     // Initialize app
     init();
@@ -290,6 +292,11 @@
             'player4': sumPlayer4,
             'player5': sumPlayer5
         };
+    }
+
+    // Toggles display of score total row
+    function toggleTotals(trueOrFalse) {
+        $scope.hideTotals = trueOrFalse;
     }
 
     // Saves cookie data

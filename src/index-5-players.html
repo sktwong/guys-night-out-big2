@@ -44,13 +44,17 @@
                     <td>{{ game.player4 || '-' }}</td>
                     <td>{{ game.player5 || '-' }}</td>
                 </tr>
-                <tr class="last-row info">
+                <tr class="last-row info" ng-if="!hideTotals" ng-click="toggleTotals(true)">
                     <td>Total</td>
                     <td>{{ totals.player1 || '-' }}</td>
                     <td>{{ totals.player2 || '-' }}</td>
                     <td>{{ totals.player3 || '-' }}</td>
                     <td>{{ totals.player4 || '-' }}</td>
                     <td>{{ totals.player5 || '-' }}</td>
+                </tr>
+                <tr class="last-row info" ng-if="hideTotals" ng-click="toggleTotals(false)">
+                    <td>Total</td>
+                    <td colspan="5">Click for total scores</td>
                 </tr>
             </tbody>
         </table>
@@ -118,31 +122,31 @@
                             <div class="form-group">
                                 <label for="player1" class="col-sm-4 control-label player1">Player 1</label>
                                 <div class="col-sm-4">
-                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player1" value="">
+                                    <input type="number" class="form-control player1" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player2" class="col-sm-4 control-label player2">Player 2</label>
                                 <div class="col-sm-4">
-                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player2" value="">
+                                    <input type="number" class="form-control player2" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player3" class="col-sm-4 control-label player3">Player 3</label>
                                 <div class="col-sm-4">
-                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player3" value="">
+                                    <input type="number" class="form-control player3" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player4" class="col-sm-4 control-label player4">Player 4</label>
                                 <div class="col-sm-4">
-                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player4" value="">
+                                    <input type="number" class="form-control player4" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="player5" class="col-sm-4 control-label player5">Player 5</label>
                                 <div class="col-sm-4">
-                                    <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player5" value="">
+                                    <input type="number" class="form-control player5" value="">
                                 </div>
                             </div>
                         </form>

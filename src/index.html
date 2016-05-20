@@ -42,12 +42,16 @@
                     <td>{{ game.player3 || '-' }}</td>
                     <td>{{ game.player4 || '-' }}</td>
                 </tr>
-                <tr class="last-row info">
+                <tr class="last-row info" ng-if="!hideTotals" ng-click="toggleTotals(true)">
                     <td>Total</td>
                     <td>{{ totals.player1 || '-' }}</td>
                     <td>{{ totals.player2 || '-' }}</td>
                     <td>{{ totals.player3 || '-' }}</td>
                     <td>{{ totals.player4 || '-' }}</td>
+                </tr>
+                <tr class="last-row info" ng-if="hideTotals" ng-click="toggleTotals(false)">
+                    <td>Total</td>
+                    <td colspan="4">Click for total scores</td>
                 </tr>
             </tbody>
         </table>
