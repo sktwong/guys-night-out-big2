@@ -13,6 +13,7 @@
     $scope.editScores = editScores;
     $scope.saveScores = saveScores;
     $scope.newGame = newGame;
+    $scope.newGameModal = newGameModal;
 
     // Data objects
     var gameData = {}; // Game data object, used for data storage
@@ -60,12 +61,20 @@
         return data;
     }
 
+    // New game modal
+    function newGameModal() {
+        // Show modal
+        $('#new-game').modal('show');
+    }
+
     // New game
     function newGame() {
         gameData = initGameData();
         $scope.players = gameData.players;
         $scope.scores = gameData.scores;
+        $scope.totals = {}
         saveCookieData();
+        $('#new-game').modal('hide');
     }
 
     // Displays edit players modal

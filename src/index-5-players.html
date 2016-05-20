@@ -20,7 +20,7 @@
     <div class="container">
         <h1>Big 2 - 5 Players</h1>
 
-        <button class="btn btn-info" type="button" ng-click="newGame()">New Game</button>
+        <button class="btn btn-info" type="button" ng-click="newGameModal()">New Game</button>
         <a href="data-5-players.html" class="btn btn-info">Data</a>
         <a href="index.html" class="btn btn-info pull-right">4 Players</a>
 
@@ -150,6 +150,25 @@
                     <div class="modal-footer">
                         <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
                         <button type="button" id="save-scores" class="btn btn-primary" ng-click="saveScores()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Game Confirmation Modal -->
+        <div class="modal fade" id="new-game" tabindex="-1">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">Start a new game?</span></h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to start a new game?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary" ng-click="newGame()">Yes</button>
                     </div>
                 </div>
             </div>
