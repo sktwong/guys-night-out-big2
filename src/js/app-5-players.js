@@ -47,14 +47,16 @@
                 'player1': '',
                 'player2': '',
                 'player3': '',
-                'player4': ''
+                'player4': '',
+                'player5': ''
             },
             'scores': [{
                 'id': '1',
                 'player1': '',
                 'player2': '',
                 'player3': '',
-                'player4': ''
+                'player4': '',
+                'player5': ''
             }]
         };
         return data;
@@ -75,6 +77,7 @@
         $('#edit-players .player2').val($scope.players.player2);
         $('#edit-players .player3').val($scope.players.player3);
         $('#edit-players .player4').val($scope.players.player4);
+        $('#edit-players .player5').val($scope.players.player5);
 
         // Show modal
         $('#edit-players').modal('show');
@@ -93,6 +96,7 @@
         $scope.players.player2 = $('#edit-players .player2').val();
         $scope.players.player3 = $('#edit-players .player3').val();
         $scope.players.player4 = $('#edit-players .player4').val();
+        $scope.players.player5 = $('#edit-players .player5').val();
 
         // Save latest game data to cookie
         saveCookieData();
@@ -107,6 +111,7 @@
         $('#edit-scores label.player2').text($('.players .player2').text());
         $('#edit-scores label.player3').text($('.players .player3').text());
         $('#edit-scores label.player4').text($('.players .player4').text());
+        $('#edit-scores label.player5').text($('.players .player5').text());
 
         // Set scores if present
         $('#edit-scores-id').text(game.id);
@@ -114,18 +119,17 @@
         $('#edit-scores input.player2').val(game.player2);
         $('#edit-scores input.player3').val(game.player3);
         $('#edit-scores input.player4').val(game.player4);
+        $('#edit-scores input.player5').val(game.player5);
 
         // Show modal and set Save button disable status
         $('#edit-scores').modal('show');
-        setSaveDisableStatus();
 
         // Enable save button if score validation passes
         // - validate after each number entry
         $('#edit-scores').keyup(function(e) {
-            setSaveDisableStatus();
 
             // Allow enter key to save
-            if (isScoreValid() && e.which == 13) {
+            if (e.which == 13) {
                 $('#save-scores').click();
             }
         });
@@ -152,7 +156,8 @@
             'player1': score.player1,
             'player2': score.player2,
             'player3': score.player3,
-            'player4': score.player4
+            'player4': score.player4,
+            'player5': score.player5,
         }
 
         // Find game via index and update
@@ -165,7 +170,8 @@
                 'player1': '',
                 'player2': '',
                 'player3': '',
-                'player4': ''
+                'player4': '',
+                'player5': ''
             }
             $scope.scores.push(newGame);
         }
@@ -185,7 +191,8 @@
         var scorePlayer2 = $('#edit-scores input.player2').val();
         var scorePlayer3 = $('#edit-scores input.player3').val();
         var scorePlayer4 = $('#edit-scores input.player4').val();
-        var allScores = [scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4];
+        var scorePlayer5 = $('#edit-scores input.player5').val();
+        var allScores = [scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4, scorePlayer5];
 
         // Iterate through all scores and record number of positive entries, negative entries, and sums
         var positiveScores = 0;
@@ -229,7 +236,8 @@
         var scorePlayer2 = $('#edit-scores input.player2').val();
         var scorePlayer3 = $('#edit-scores input.player3').val();
         var scorePlayer4 = $('#edit-scores input.player4').val();
-        var allScores = [scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4];
+        var scorePlayer5 = $('#edit-scores input.player5').val();
+        var allScores = [scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4, scorePlayer5];
         var totalScore = 0;
 
         // Iterate through scores, doubling / tripling if needed, and adding total score
@@ -241,18 +249,12 @@
             totalScore += parseInt(allScores[key]) || 0;
         });
 
-        // Apply total score to the missing entry
-        angular.forEach(allScores, function(val, key) {
-            if (val == 0 || val == '') {
-                allScores[key] = -Math.abs(totalScore);
-            }
-        });
-
         // Update scores and return
         score.player1 = allScores[0];
         score.player2 = allScores[1];
         score.player3 = allScores[2];
         score.player4 = allScores[3];
+        score.player5 = allScores[4];
         return score;
     }
 
@@ -262,19 +264,22 @@
         var sumPlayer2 = 0;
         var sumPlayer3 = 0;
         var sumPlayer4 = 0;
+        var sumPlayer5 = 0;
 
         angular.forEach($scope.scores, function(val, key) {
             sumPlayer1 += parseInt(val.player1 || 0);
             sumPlayer2 += parseInt(val.player2 || 0);
             sumPlayer3 += parseInt(val.player3 || 0);
             sumPlayer4 += parseInt(val.player4 || 0);
+            sumPlayer5 += parseInt(val.player5 || 0);
         });
 
         $scope.totals = {
             'player1': sumPlayer1,
             'player2': sumPlayer2,
             'player3': sumPlayer3,
-            'player4': sumPlayer4
+            'player4': sumPlayer4,
+            'player5': sumPlayer5
         };
     }
 
@@ -287,12 +292,12 @@
         // Set expiration date to future
         var now = new Date();
         var expiryDate = new Date(now.getFullYear()+20, now.getMonth(), now.getDate());
-        $cookies.putObject('guysNightOut-big2', gameData, { expires: expiryDate });
+        $cookies.putObject('guysNightOut-big2-5-players', gameData, { expires: expiryDate });
     }
 
     // Gets cookie data
     function getCookieData() {
-        var cookieData = $cookies.getObject('guysNightOut-big2');
+        var cookieData = $cookies.getObject('guysNightOut-big2-5-players');
         return cookieData;
     }
 }
