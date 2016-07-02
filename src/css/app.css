@@ -7,6 +7,10 @@ body.modal-open {
     width: 100%;
 }
 
+thead {
+    background: #fff;
+}
+
 th,
 td {
     text-align: center;
@@ -59,13 +63,21 @@ input::-webkit-inner-spin-button {
 }
 
 @media (max-width: 320px) {
-  .table {
-    font-size: 0.8em;
-  }
+    .table {
+        font-size: 0.8em;
+    }
 }
 
 @media (min-width: 321px) and (max-width: 375px) {
-  .table {
-    font-size: 0.9em;
-  }
+    .table {
+        font-size: 0.9em;
+    }
 }
+
+
+
+/*.floatingHeader th {
+    background: #fff;
+    border-top: none !important;
+}
+*/
