@@ -3,10 +3,6 @@ var app = express();
 
 app.use(express.static('src'));
 
-// app.get('/', function(req, res) {
-//     res.sendFile('index.html');
-// });
-
 app.listen(3000, function() {
-    console.log('Example app listening on port 3000!');
+    console.log('Big 2 app running on port 3000...');
 });
