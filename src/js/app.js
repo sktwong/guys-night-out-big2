@@ -2,10 +2,16 @@
  * Guy's Night Out
  * Big 2 - Score Calculator
  */
- var big2App = angular.module('big2App', ['ngCookies']);
- big2App.controller('Big2Controller', ['$scope', '$cookies', Big2ControllerFn]);
+ var big2App = angular.module('big2App', ['LocalStorageModule']);
 
- function Big2ControllerFn($scope, $cookies) {
+
+ big2App.config(function (localStorageServiceProvider) {
+    localStorageServiceProvider.setStorageType('localStorage');
+ });
+
+ big2App.controller('Big2Controller', ['$scope', 'localStorageService', Big2ControllerFn]);
+
+ function Big2ControllerFn($scope, localStorageService) {
 
     // Available functions
     $scope.editPlayers = editPlayers;
@@ -31,8 +37,8 @@
     // - starts a new game if none is found
     function init() {
 
-        // Use data from cookies if exists
-        gameData = getCookieData();
+        // Use existing game data if available
+        gameData = getGameData();
         if (!gameData) {
             gameData = initGameData();
         }
@@ -40,7 +46,7 @@
         $scope.players = gameData.players;
         $scope.scores = gameData.scores;
 
-        saveCookieData();
+        saveGameData();
         updateScoreTotals();
     }
 
@@ -76,7 +82,7 @@
         $scope.players = gameData.players;
         $scope.scores = gameData.scores;
         $scope.totals = {}
-        saveCookieData();
+        saveGameData();
         $('#new-game').modal('hide');
     }
 
@@ -106,8 +112,8 @@
         $scope.players.player3 = $('#edit-players .player3').val();
         $scope.players.player4 = $('#edit-players .player4').val();
 
-        // Save latest game data to cookie
-        saveCookieData();
+        // Save latest game data
+        saveGameData();
 
         $('#edit-players').modal('hide');
     }
@@ -182,8 +188,8 @@
             $scope.scores.push(newGame);
         }
 
-        // Save latest game data to cookie
-        saveCookieData();
+        // Save latest game data
+        saveGameData();
 
         // Update score totals
         updateScoreTotals();
@@ -295,21 +301,17 @@
         $scope.hideTotals = trueOrFalse;
     }
 
-    // Saves cookie data
-    function saveCookieData() {
+    // Saves game data
+    function saveGameData() {
         // Update game data with latest scope data
         gameData.players = $scope.players;
         gameData.scores = $scope.scores;
  
-        // Set expiration date to future
-        var now = new Date();
-        var expiryDate = new Date(now.getFullYear()+20, now.getMonth(), now.getDate());
-        $cookies.putObject('guysNightOut-big2', gameData, { expires: expiryDate });
+        localStorageService.set('guysNightOut-big2', gameData);
     }
 
-    // Gets cookie data
-    function getCookieData() {
-        var cookieData = $cookies.getObject('guysNightOut-big2');
-        return cookieData;
+    // Gets game data
+    function getGameData() {
+        return localStorageService.get('guysNightOut-big2');
     }
 }

@@ -4,6 +4,7 @@
   "description": "Big 2 Score Calculator",
   "main": "app.js",
   "dependencies": {
+    "angular-local-storage": "^0.2.7",
     "express": "^4.14.0",
     "floatthead": "^1.4.0"
   },
