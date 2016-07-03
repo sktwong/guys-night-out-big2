@@ -7,21 +7,9 @@
  */
 
 $(document).ready(function() {
-//     var table = $('table thead');
-//     var position = table.position();
 
-//     $(window).scroll(function() {
-//         var windowPosition = $(window).scrollTop();
-
-//         if (windowPosition >= position.top) {
-//             table.addClass('stick');
-//         } else {
-//             table.removeClass('stick');
-//         }
-//     });
-
-    var $table = $('table');
-    $table.floatThead({
+    // Keep player names at top of screen when scrolling
+    $('#scores').floatThead({
         position: 'absolute'
     });
 });
