@@ -21,11 +21,30 @@
 
 <body ng-app="big2App" ng-controller="Big2Controller">
     <div class="container">
-        <h1>Big 2 - 4 Players</h1>
 
-        <button class="btn btn-info" type="button" ng-click="newGameModal()">New Game</button>
-        <a href="data-4-players.html" class="btn btn-info">Data</a>
-        <a href="index-5-players.html" class="btn btn-info pull-right">5 Players</a>
+        <!-- Start navigation bar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Table 4</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav text-right">
+                        <li><a href="#" ng-click="newGameModal()">New Game</a></li>
+                        <li><a href="data-4-players.html">Data</a></li>
+                        <li><a href="index-5-players.html">5 Players</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End navigation bar -->
 
         <table id="scores" class="table table-striped">
             <thead>

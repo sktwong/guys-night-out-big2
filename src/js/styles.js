@@ -10,6 +10,7 @@ $(document).ready(function() {
 
     // Keep player names at top of screen when scrolling
     $('#scores').floatThead({
-        position: 'absolute'
+        position: 'relative',
+        top: 50
     });
 });

@@ -2,6 +2,10 @@
  * Guy's Night Out
  * Big 2 - Score Calculator
  */
+body {
+    padding-top: 40px;
+}
+
 body.modal-open {
     position: fixed;
     width: 100%;
@@ -73,8 +77,6 @@ input::-webkit-inner-spin-button {
         font-size: 0.9em;
     }
 }
-
-
 
 /*.floatingHeader th {
     background: #fff;
