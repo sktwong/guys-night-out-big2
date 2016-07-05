@@ -3,7 +3,7 @@
  * Big 2 - Score Calculator
  */
 body {
-    padding-top: 40px;
+    padding-top: 50px;
 }
 
 body.modal-open {
@@ -26,7 +26,6 @@ tr.last-row {
 }
 
 .table {
-    margin-top: 10px;
 }
 
 .table > tbody > tr.last-row td {
