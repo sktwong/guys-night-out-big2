@@ -16,10 +16,15 @@
     <script src="js/libs/angular-route.1.4.5.min.js"></script>
     <script src="js/libs/angular-local-storage.min.js"></script>
     <script src="js/libs/jquery.floatThead.min.js"></script>
+    <script src="js/libs/ui-bootstrap-tpls.js"></script>
 
     <!-- app support and modules -->
     <script src="index.js"></script>
+    <script src="services.js"></script>
     <script src="styles.js"></script>
+    <script src="directives/navBar/navBar.controller.js"></script>
+    <script src="directives/navBar/navBar.directive.js"></script>
+    <script src="modals/newGame/newGame.controller.js"></script>
     <script src="modules/game/game.controller.js"></script>
     <script src="modules/data/data.controller.js"></script>
 </head>
@@ -28,30 +33,8 @@
 
     <div class="container">
 
-        <!-- Start navigation bar -->
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Big 2 - Guy's Night Out</a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav text-right">
-                        <li><a href="/#/">Current Game</a></li>
-                        <li><a href="/#/data">Data</a></li>
-                        <li><a href="/index-5-players.html">Old 5 Player Mode</a></li>
-                        <li class="disabled"><a ng-click="newGameModal()">New Game</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- End navigation bar -->
+        <!-- Navigation bar / menu -->
+        <nav-bar></nav-bar>
 
         <!-- Content Templates -->
         <div ng-view></div>
