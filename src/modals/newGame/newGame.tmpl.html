@@ -1,13 +1,57 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-    <h4 class="modal-title">Start a new game?</span></h4>
-</div>
-
-<div class="modal-body">
-    Are you sure you want to start a new game?
-</div>
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="nope()">No</button>
-    <button type="button" class="btn btn-primary" ng-click="yes()">Yes</button>
+<div id="modal-new-game">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
+        <h4 class="modal-title">Start a new game?</span></h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-xs-5 col-md-5 text-right">
+                    <label for="new-game-players"># of Players:</label>
+                </div>
+                <div class="col-xs-5 col-md-7">
+                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                        <div class="btn-group">
+                            <label class="btn btn-default active">
+                                <input type="radio" name="players" id="players4">4
+                            </label>
+                        </div>
+                        <div class="btn-group">
+                            <label class="btn btn-default">
+                                <input type="radio" name="players" id="players5">5
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-5 col-md-5 text-right">
+                    <label for="new-game-players">Point Value:</label>
+                </div>
+                <div class="col-xs-7 col-md-7">
+                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                        <div class="btn-group">
+                            <label class="btn btn-default">
+                                <input type="radio" name="values" id="value5">5&cent;
+                            </label>
+                        </div>
+                        <div class="btn-group">
+                            <label class="btn btn-default active">
+                                <input type="radio" name="values" id="value10">10&cent;
+                            </label>
+                        </div>
+                        <div class="btn-group">
+                            <label class="btn btn-default">
+                                <input type="radio" name="values" id="value25">25&cent;
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">No</button>
+        <button type="button" class="btn btn-primary" ng-click="cancel()">Yes</button>
+    </div>
 </div>

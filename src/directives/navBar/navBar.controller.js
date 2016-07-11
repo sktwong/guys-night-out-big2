@@ -14,6 +14,7 @@ function navBarControllerFn($scope, $uibModal) {
 
     function newGameModal() {
         $uibModal.open({
+            size: 'sm',
             templateUrl: 'modals/newGame/newGame.tmpl.html',
             controller: 'modalNewGameController'
         });
