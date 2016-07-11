@@ -81,8 +81,12 @@ input::-webkit-inner-spin-button {
     }
 }
 
-/*.floatingHeader th {
-    background: #fff;
-    border-top: none !important;
+#modal-new-game label {
+    padding-top: 5px;
 }
-*/
+
+#modal-new-game .btn-default.active:focus,
+#modal-new-game .btn-default.active:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
