@@ -2,12 +2,19 @@
     <thead>
         <tr class="players" ng-click="editPlayers()">
             <th>#</th>
-            <th ng-repeat="(key, value) in players">{{ value || 'Player ' + ($index + 1) }}</td>
+            <th class="player1" ng-bind="players.player1 || 'Player 1'"></th>
+            <th class="player2" ng-bind="players.player2 || 'Player 2'"></th>
+            <th class="player3" ng-bind="players.player3 || 'Player 3'"></th>
+            <th class="player4" ng-bind="players.player4 || 'Player 4'"></th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="game in scores" class="scores" ng-click="editScore(game)">
-            <td ng-repeat="(key, value) in game">{{ value || '-' }}</td>
+        <tr ng-repeat="game in scores" class="scores" ng-click="editScores(game)">
+            <td>{{ game.id }}</td>
+            <td>{{ game.player1 || '-'}}</td>
+            <td>{{ game.player2 || '-' }}</td>
+            <td>{{ game.player3 || '-' }}</td>
+            <td>{{ game.player4 || '-' }}</td>
         </tr>
         <tr class="last-row info" ng-if="!hideTotals" ng-click="toggleTotals(true)">
             <td>Total</td>
