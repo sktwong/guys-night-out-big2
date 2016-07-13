@@ -12,7 +12,7 @@
     // Available functions
     $scope.editPlayers = editPlayers;
     $scope.savePlayers = savePlayers;
-    $scope.editScores = editScores; // Delete this
+    $scope.editScores = editScores; // Delete this after refactoring
     $scope.editScore = editScore;
     $scope.saveScores = saveScores;
     $scope.newGame = newGame;
@@ -41,8 +41,7 @@
         }
         $scope.gameData = gameData;
         $scope.players = gameData.players;
-        $scope.scores = filterOutScores(gameData.scores);
-        console.log('gameData.scores', gameData.scores);
+        $scope.scores = removeStartTime(gameData.scores);
 
         saveGameData();
         updateScoreTotals();
@@ -87,27 +86,13 @@
         $('#new-game').modal('show');
     }
 
-    // Filters out only game IDs and scores from data object
-    function filterOutScores(scores) {
+    // Removes startTime from scores data object
+    function removeStartTime(scores) {
         var newScores = angular.copy(scores);
         angular.forEach(newScores, function(score) {
             delete score.startTime;
         });
         return newScores;
-    }
-
-    // Edits score for a game
-    function editScore(gameData) {
-        console.log('here');
-        $uibModal.open({
-            size: 'sm',
-            templateUrl: 'modals/editScore/editScore.tmpl.html',
-            controller: 'modalEditScoreController',
-            resolve: {
-                gameData: gameData
-                // Pass in additional game data
-            }
-        });
     }
 
     // New game
@@ -150,6 +135,28 @@
         saveGameData();
 
         $('#edit-players').modal('hide');
+    }
+
+    // Edits score for a game
+    function editScore(gameData) {
+        var editScoreModal = $uibModal.open({
+            size: 'sm',
+            templateUrl: 'modals/editScore/editScore.tmpl.html',
+            controller: 'modalEditScoreController',
+            controllerAs: 'vm',
+            resolve: {
+                data: function() {
+                    return {
+                        players: $scope.players,
+                        gameData: gameData
+                    };
+                }
+            }
+        });
+
+        editScoreModal.result.then(function(data) {
+            console.log('new scores', data);
+        });
     }
 
     // Displays save scores modal

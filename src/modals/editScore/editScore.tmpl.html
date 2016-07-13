@@ -1,36 +1,18 @@
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-    <h4 class="modal-title">Game {{ id }}</h4>
+    <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
+    <h4 class="modal-title">Game {{ vm.gameData.id }}</h4>
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
-        <div class="form-group">
-            <label for="player1" class="col-sm-4 control-label player1">Player 1</label>
+        <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key != 'id'">
+            <label class="col-sm-4 control-label">{{ vm.players[key] }}</label>
             <div class="col-sm-4">
-                <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player1" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="player2" class="col-sm-4 control-label player2">Player 2</label>
-            <div class="col-sm-4">
-                <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player2" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="player3" class="col-sm-4 control-label player3">Player 3</label>
-            <div class="col-sm-4">
-                <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player3" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="player4" class="col-sm-4 control-label player4">Player 4</label>
-            <div class="col-sm-4">
-                <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control player4" value="">
+                <input type="text" class="form-control" ng-model="vm.gameData[key]">
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
-    <button type="button" id="save-scores" class="btn btn-primary" ng-click="saveScores()" disabled>Save</button>
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="close()">Save</button>
 </div>

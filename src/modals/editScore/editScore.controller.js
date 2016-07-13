@@ -5,21 +5,20 @@
  * Creating new game - modal controller
  *
  */
-big2App.controller('modalEditScoreController', ['$scope', 'big2AppService', '$uibModalInstance', 'gameData', modalEditScoreControllerFn]);
+big2App.controller('modalEditScoreController', ['$scope', 'big2AppService', '$uibModalInstance', 'data', modalEditScoreControllerFn]);
 
-function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, gameData) {
-    // $scope.gameData = JSON.stringify(localStorageService.get('guysNightOut-big2'));
+function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, data) {
 
-    $scope.id = gameData.id;
-    
+    var vm = this;
+    vm.players = angular.copy(data.players);
+    vm.gameData = angular.copy(data.gameData);
 
-    $scope.yes = function() {
-        big2AppService.getData();
+    $scope.close = function() {
+        $uibModalInstance.close({ data: vm.gameData });
     }
 
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
 
-    console.log('gameData', gameData);
 }
