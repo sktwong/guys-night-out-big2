@@ -7,7 +7,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="score in scores" class="scores" ng-click="editScore(score)">
-            <td ng-repeat="(key, value) in score">{{ value || '-' }}</td>
+            <td ng-repeat="(key, value) in score" ng-if="key != 'startTime'">{{ value || '-' }}</td>
         </tr>
         <tr class="last-row info" ng-if="!hideTotals" ng-click="toggleTotals(true)">
             <td>Total</td>

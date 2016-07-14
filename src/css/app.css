@@ -90,3 +90,15 @@ input::-webkit-inner-spin-button {
     background-color: #e6e6e6;
     border-color: #adadad;
 }
+
+#modal-new-game .btn.number-of-players {
+    width: 45px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#modal-new-game .btn.point-value {
+    width: 45px;
+    padding-left: 8px;
+    padding-right: 8px;
+}

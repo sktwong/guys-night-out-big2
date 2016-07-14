@@ -8,10 +8,18 @@
 big2App.controller('modalNewGameController', ['$scope', 'big2AppService', '$uibModalInstance', ModalNewGameControllerFn]);
 
 function ModalNewGameControllerFn($scope, big2AppService, $uibModalInstance) {
-    // $scope.gameData = JSON.stringify(localStorageService.get('guysNightOut-big2'));
 
-    $scope.yes = function() {
-        big2AppService.getData();
+    var vm = this;
+    vm.numberOfPlayers = '5';
+    vm.pointValue = '0.10';
+
+    $scope.createGame = function() {
+        var newGameSettings = {
+            'numberOfPlayers': vm.numberOfPlayers,
+            'pointValue': vm.pointValue
+        };
+
+        $uibModalInstance.close(newGameSettings);
     }
 
     $scope.cancel = function() {

@@ -21,20 +21,34 @@ function Big2AppServiceFn(localStorageService) {
         loadMockdata: loadMockdata
     };
 
-    function createNewGame() {
-        return createNewScore(1);
+    function createNewGame(settings) {
+
+        // Temp setting of players
+        var players = {'player1': '', 'player2': '', 'player3': '', 'player4': ''};
+        if (settings.numberOfPlayers == '5') {
+            players.player5 = '';
+        }
+
+        var scores = [];
+        scores.push(createNewScore(1, settings));
+
+        var newGameData = {
+            'settings': settings,
+            'players': players,
+            'scores': scores
+        }
+        console.log('newGameData', newGameData);
+        saveData(newGameData);
     }
 
-    function createNewScore(newGameId) {
-        var settings = getSettings();
-        var newScore = {
-            'id': newGameId
+    function createNewScore(newGameId, settings) {
+        var newScore = { 
+            'id': newGameId,
+            'startTime': (new Date()).toJSON()
         };
-
         for (var i = 0; i < settings.numberOfPlayers; i++) {
             newScore['player' + (i + 1)] = '';
         }
-
         return newScore;
     }
 
@@ -47,6 +61,7 @@ function Big2AppServiceFn(localStorageService) {
     }
 
     function saveData(data) {
+        console.log('data', data);
         localStorageService.set('guysNightOut-big2', data);
     }
 

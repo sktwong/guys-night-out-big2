@@ -10,17 +10,9 @@
                     <label for="new-game-players"># of Players:</label>
                 </div>
                 <div class="col-xs-5 col-md-7">
-                    <div class="btn-group btn-group-justified" data-toggle="buttons">
-                        <div class="btn-group">
-                            <label class="btn btn-default active">
-                                <input type="radio" name="players" id="players4">4
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-default">
-                                <input type="radio" name="players" id="players5">5
-                            </label>
-                        </div>
+                    <div class="btn-group">
+                        <label class="btn btn-default number-of-players" ng-model="vm.numberOfPlayers" uib-btn-radio="'4'">4</label>
+                        <label class="btn btn-default number-of-players" ng-model="vm.numberOfPlayers" uib-btn-radio="'5'">5</label>
                     </div>
                 </div>
             </div>
@@ -29,22 +21,10 @@
                     <label for="new-game-players">Point Value:</label>
                 </div>
                 <div class="col-xs-7 col-md-7">
-                    <div class="btn-group btn-group-justified" data-toggle="buttons">
-                        <div class="btn-group">
-                            <label class="btn btn-default">
-                                <input type="radio" name="values" id="value5">5&cent;
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-default active">
-                                <input type="radio" name="values" id="value10">10&cent;
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-default">
-                                <input type="radio" name="values" id="value25">25&cent;
-                            </label>
-                        </div>
+                    <div class="btn-group">
+                        <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.05'">5&cent;</label>
+                        <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.10'">10&cent;</label>
+                        <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.25'">25&cent;</label>
                     </div>
                 </div>
             </div>
@@ -52,6 +32,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">No</button>
-        <button type="button" class="btn btn-primary" ng-click="cancel()">Yes</button>
+        <button type="button" class="btn btn-primary" ng-click="createGame()">Yes</button>
     </div>
 </div>

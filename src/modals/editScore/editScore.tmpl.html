@@ -4,8 +4,8 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
-        <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key != 'id'">
-            <label class="col-sm-4 control-label">{{ vm.players[key] }}</label>
+        <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key != 'id' && key != 'startTime'">
+            <label class="col-sm-4 control-label">{{ vm.players[key] || 'Player ' + ($index - 1)}}</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" ng-model="vm.gameData[key]">
             </div>
