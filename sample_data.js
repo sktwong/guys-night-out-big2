@@ -1,4 +1,8 @@
         var data = {
+            'settings': {
+                'numberOfPlayers': '5',
+                'pointValue': '0.10'
+            },
             'players': {
                 'player1': 'Steve',
                 'player2': 'Marcus',

@@ -13,13 +13,37 @@ big2App.factory('big2AppService', ['localStorageService', Big2AppServiceFn]);
 function Big2AppServiceFn(localStorageService) {
 
     return {
+        createNewGame: createNewGame,
+        createNewScore: createNewScore,
         getData: getData,
+        getSettings: getSettings,
         saveData: saveData,
         loadMockdata: loadMockdata
     };
 
+    function createNewGame() {
+        return createNewScore(1);
+    }
+
+    function createNewScore(newGameId) {
+        var settings = getSettings();
+        var newScore = {
+            'id': newGameId
+        };
+
+        for (var i = 0; i < settings.numberOfPlayers; i++) {
+            newScore['player' + (i + 1)] = '';
+        }
+
+        return newScore;
+    }
+
     function getData() {
         return localStorageService.get('guysNightOut-big2');
+    }
+
+    function getSettings() {
+        return getData().settings;
     }
 
     function saveData(data) {

@@ -1,8 +1,8 @@
 /*
  * Guy's Night Out - Big 2
- * newGame.controller.js
+ * editScore.controller.js
  *
- * Creating new game - modal controller
+ * Editing new / existing score - modal controller
  *
  */
 big2App.controller('modalEditScoreController', ['$scope', 'big2AppService', '$uibModalInstance', 'data', modalEditScoreControllerFn]);
@@ -20,5 +20,4 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
-
 }
