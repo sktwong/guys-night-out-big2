@@ -119,3 +119,14 @@ input::-webkit-inner-spin-button {
     padding-left: 8px;
     padding-right: 8px;
 }
+
+#navbar-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    background-color: #000;
+    z-index: 1002; /* 1001 - floathead, 1030 - navbar */
+}
