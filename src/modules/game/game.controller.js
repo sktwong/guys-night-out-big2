@@ -128,7 +128,7 @@
             // Find game via index and update
             var gameId = parseInt(result.data.id);
             var gameIndex = gameId - 1
-            $scope.scores[gameIndex] = result.data;
+            $scope.scores[gameIndex] = calculateScore(result.data);
 
             // If this is the latest game, add a new blank row to score table
             if ($scope.scores.length == gameId) {
@@ -188,36 +188,15 @@
     // - if an entered value is 10, 11, 12 -> double
     // - if an entered value is 13 -> triple
     // - if an entered value is blank -> sum up other scores
-    function calculateScore() {
-        var score = {};
-        var scorePlayer1 = $('#edit-scores input.player1').val();
-        var scorePlayer2 = $('#edit-scores input.player2').val();
-        var scorePlayer3 = $('#edit-scores input.player3').val();
-        var scorePlayer4 = $('#edit-scores input.player4').val();
-        var allScores = [scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4];
-        var totalScore = 0;
-
-        // Iterate through scores, doubling / tripling if needed, and adding total score
-        angular.forEach(allScores, function(val, key) {
-            if (val == 10) { allScores[key] = 20; }
-            else if (val == 11) { allScores[key] = 22; }
-            else if (val == 12) { allScores[key] = 24; }
-            else if (val == 13) { allScores[key] = 39; }
-            totalScore += parseInt(allScores[key]) || 0;
-        });
-
-        // Apply total score to the missing entry
-        angular.forEach(allScores, function(val, key) {
-            if (val == 0 || val == '') {
-                allScores[key] = -Math.abs(totalScore);
+    function calculateScore(score) {
+        angular.forEach(score, function(val, key) {
+            if (key.indexOf('player') > -1) {
+                if (val == 10) { score[key] = 20; }
+                else if (val == 11) { score[key] = 22; }
+                else if (val == 12) { score[key] = 24; }
+                else if (val == 13) { score[key] = 39; }
             }
         });
-
-        // Update scores and return
-        score.player1 = allScores[0];
-        score.player2 = allScores[1];
-        score.player3 = allScores[2];
-        score.player4 = allScores[3];
         return score;
     }
 

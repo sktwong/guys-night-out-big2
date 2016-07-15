@@ -37,7 +37,6 @@ function Big2AppServiceFn(localStorageService) {
             'players': players,
             'scores': scores
         }
-        console.log('newGameData', newGameData);
         saveData(newGameData);
     }
 
@@ -61,7 +60,6 @@ function Big2AppServiceFn(localStorageService) {
     }
 
     function saveData(data) {
-        console.log('data', data);
         localStorageService.set('guysNightOut-big2', data);
     }
 
