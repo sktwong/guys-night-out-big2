@@ -13,14 +13,6 @@
     $scope.editScore = editScore;
     $scope.editPlayers = editPlayers;
 
-    $scope.savePlayers = savePlayers;
-    $scope.editScores = editScores; // Delete this after refactoring
-
-    $scope.saveScores = saveScores;
-    $scope.newGame = newGame;
-    $scope.newGameModal = newGameModal;
-    $scope.toggleTotals = toggleTotals;
-
     // Data objects
     var gameData = null; // Game data object, used for data storage
     $scope.players = {}; // Player names
@@ -85,12 +77,6 @@
         return data;
     }
 
-    // New game modal
-    function newGameModal() {
-        // Show modal
-        $('#new-game').modal('show');
-    }
-
     // Removes startTime from scores data object
     function removeStartTime(scores) {
         var newScores = angular.copy(scores);
@@ -100,17 +86,6 @@
         return newScores;
     }
 
-    // New game
-    function newGame() {
-        gameData = initGameData();
-        $scope.players = gameData.players;
-        $scope.scores = gameData.scores;
-        $scope.totals = {}
-        saveGameData();
-        $('#new-game').modal('hide');
-    }
-
-    // Displays edit players modal
     function editPlayers() {
         var editScoreModal = $uibModal.open({
             size: 'sm',
@@ -127,53 +102,9 @@
         });
 
         editScoreModal.result.then(function(result) {
-
             $scope.players = result.data;
             saveGameData();
-
-            // // Find game via index and update
-            // var gameId = parseInt(result.data.id);
-            // var gameIndex = gameId - 1
-            // $scope.scores[gameIndex] = result.data;
-
-            // // If this is the latest game, add a new blank row to score table
-            // if ($scope.scores.length == gameId) {
-            //     var newScore = big2AppService.createNewScore(gameId + 1, big2AppService.getSettings());
-            //     $scope.scores.push(newScore);
-            // }
-
-            // // Save latest game data
-            // saveGameData();
         });
-
-        // // Set player names if present
-        // $('#edit-players .player1').val($scope.players.player1);
-        // $('#edit-players .player2').val($scope.players.player2);
-        // $('#edit-players .player3').val($scope.players.player3);
-        // $('#edit-players .player4').val($scope.players.player4);
-
-        // // Show modal
-        // $('#edit-players').modal('show');
-
-        // // Allow Enter key to save players
-        // $('#edit-players').keypress(function(e) {
-        //     if(e.which == 13) {
-        //         $('#save-players').click();
-        //     }
-        // });
-    }
-
-    // Saves player names to scope, then closes modal
-    function savePlayers() {
-        $scope.players.player1 = $('#edit-players .player1').val();
-        $scope.players.player2 = $('#edit-players .player2').val();
-        $scope.players.player3 = $('#edit-players .player3').val();
-        $scope.players.player4 = $('#edit-players .player4').val();
-
-        // Save latest game data
-        saveGameData();
-
-        $('#edit-players').modal('hide');
     }
 
     // Edits score for a game
@@ -205,88 +136,12 @@
                 $scope.scores.push(newScore);
             }
 
+            // Update score totals
+            updateScoreTotals();
+
             // Save latest game data
             saveGameData();
         });
-    }
-
-    // Displays save scores modal
-    function editScores(game) {
-        // Update player names
-        $('#edit-scores label.player1').text($('.players .player1').text());
-        $('#edit-scores label.player2').text($('.players .player2').text());
-        $('#edit-scores label.player3').text($('.players .player3').text());
-        $('#edit-scores label.player4').text($('.players .player4').text());
-
-        // Set scores if present
-        $('#edit-scores-id').text(game.id);
-        $('#edit-scores input.player1').val(game.player1);
-        $('#edit-scores input.player2').val(game.player2);
-        $('#edit-scores input.player3').val(game.player3);
-        $('#edit-scores input.player4').val(game.player4);
-
-        // Show modal and set Save button disable status
-        $('#edit-scores').modal('show');
-        setSaveDisableStatus();
-
-        // Enable save button if score validation passes
-        // - validate after each number entry
-        $('#edit-scores').keyup(function(e) {
-            setSaveDisableStatus();
-
-            // Allow enter key to save
-            if (isScoreValid() && e.which == 13) {
-                $('#save-scores').click();
-            }
-        });
-    }
-
-    // Toggles disabled status of Save button
-    function setSaveDisableStatus() {
-        if (isScoreValid()) {
-            $('#save-scores').prop('disabled', false);
-        } else {
-            $('#save-scores').prop('disabled', true);
-        }
-    }
-
-    // Saves scores to scope, then closes modal
-    function saveScores() {
-        var gameId = parseInt($('#edit-scores-id').text());
-        var index = gameId - 1;
-
-        // Calculate individual / total scores
-        var score = calculateScore();
-        var game = {
-            'id': gameId,
-            'player1': score.player1,
-            'player2': score.player2,
-            'player3': score.player3,
-            'player4': score.player4
-        }
-
-        // Find game via index and update
-        $scope.scores[index] = game;
-
-        // If this is the latest game, add a new blank row to score table
-        if ($scope.scores.length == gameId) {
-            var newGame =  {
-                'id': gameId + 1,
-                'player1': '',
-                'player2': '',
-                'player3': '',
-                'player4': ''
-            }
-            $scope.scores.push(newGame);
-        }
-
-        // Save latest game data
-        saveGameData();
-
-        // Update score totals
-        updateScoreTotals();
-
-        $('#edit-scores').modal('hide');
     }
 
     // Validates score entries
@@ -368,29 +223,23 @@
 
     // Updates score totals
     function updateScoreTotals() {
-        var sumPlayer1 = 0;
-        var sumPlayer2 = 0;
-        var sumPlayer3 = 0;
-        var sumPlayer4 = 0;
+        console.log('scores', $scope.scores);
 
-        angular.forEach($scope.scores, function(val, key) {
-            sumPlayer1 += parseInt(val.player1 || 0);
-            sumPlayer2 += parseInt(val.player2 || 0);
-            sumPlayer3 += parseInt(val.player3 || 0);
-            sumPlayer4 += parseInt(val.player4 || 0);
+        var numberOfPlayers = big2AppService.getSettings().numberOfPlayers;
+        var totals = {};
+        for (var i = 0; i < numberOfPlayers; i++) {
+            totals['player' + (i + 1)] = 0;
+        }
+
+        angular.forEach($scope.scores, function(score) {
+            angular.forEach(score, function(val, key) {
+                if (key.indexOf('player') > -1) {
+                    totals[key] += parseInt(val || 0);
+                }
+            });
         });
 
-        $scope.totals = {
-            'player1': sumPlayer1,
-            'player2': sumPlayer2,
-            'player3': sumPlayer3,
-            'player4': sumPlayer4
-        };
-    }
-
-    // Toggles display of score total row
-    function toggleTotals(trueOrFalse) {
-        $scope.hideTotals = trueOrFalse;
+        $scope.totals = totals;
     }
 
     // Saves game data
