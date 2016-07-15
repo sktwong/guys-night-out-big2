@@ -223,8 +223,6 @@
 
     // Updates score totals
     function updateScoreTotals() {
-        console.log('scores', $scope.scores);
-
         var numberOfPlayers = big2AppService.getSettings().numberOfPlayers;
         var totals = {};
         for (var i = 0; i < numberOfPlayers; i++) {
