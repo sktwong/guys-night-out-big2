@@ -10,10 +10,12 @@
  function GameControllerFn($scope, big2AppService, $timeout, $uibModal) {
 
     // Available functions
+    $scope.editScore = editScore;
     $scope.editPlayers = editPlayers;
+
     $scope.savePlayers = savePlayers;
     $scope.editScores = editScores; // Delete this after refactoring
-    $scope.editScore = editScore;
+
     $scope.saveScores = saveScores;
     $scope.newGame = newGame;
     $scope.newGameModal = newGameModal;
@@ -22,6 +24,7 @@
     // Data objects
     var gameData = null; // Game data object, used for data storage
     $scope.players = {}; // Player names
+    $scope.settings = {}; // Game settings
     $scope.scores = []; // All game scores
     $scope.totals = {}; // All game score totals
     $scope.hideTotals = true;
@@ -43,6 +46,7 @@
         $scope.players = gameData.players;
         // $scope.scores = removeStartTime(gameData.scores);
         $scope.scores = gameData.scores;
+        $scope.settings = big2AppService.getSettings();
 
         saveGameData();
         updateScoreTotals();
@@ -108,21 +112,55 @@
 
     // Displays edit players modal
     function editPlayers() {
-        // Set player names if present
-        $('#edit-players .player1').val($scope.players.player1);
-        $('#edit-players .player2').val($scope.players.player2);
-        $('#edit-players .player3').val($scope.players.player3);
-        $('#edit-players .player4').val($scope.players.player4);
-
-        // Show modal
-        $('#edit-players').modal('show');
-
-        // Allow Enter key to save players
-        $('#edit-players').keypress(function(e) {
-            if(e.which == 13) {
-                $('#save-players').click();
+        var editScoreModal = $uibModal.open({
+            size: 'sm',
+            templateUrl: 'modals/editPlayers/editPlayers.tmpl.html',
+            controller: 'modalEditPlayersController',
+            controllerAs: 'vm',
+            resolve: {
+                data: function() {
+                    return {
+                        players: $scope.players
+                    };
+                }
             }
         });
+
+        editScoreModal.result.then(function(result) {
+
+            $scope.players = result.data;
+            saveGameData();
+
+            // // Find game via index and update
+            // var gameId = parseInt(result.data.id);
+            // var gameIndex = gameId - 1
+            // $scope.scores[gameIndex] = result.data;
+
+            // // If this is the latest game, add a new blank row to score table
+            // if ($scope.scores.length == gameId) {
+            //     var newScore = big2AppService.createNewScore(gameId + 1, big2AppService.getSettings());
+            //     $scope.scores.push(newScore);
+            // }
+
+            // // Save latest game data
+            // saveGameData();
+        });
+
+        // // Set player names if present
+        // $('#edit-players .player1').val($scope.players.player1);
+        // $('#edit-players .player2').val($scope.players.player2);
+        // $('#edit-players .player3').val($scope.players.player3);
+        // $('#edit-players .player4').val($scope.players.player4);
+
+        // // Show modal
+        // $('#edit-players').modal('show');
+
+        // // Allow Enter key to save players
+        // $('#edit-players').keypress(function(e) {
+        //     if(e.which == 13) {
+        //         $('#save-players').click();
+        //     }
+        // });
     }
 
     // Saves player names to scope, then closes modal

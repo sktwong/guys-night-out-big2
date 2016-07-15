@@ -22,7 +22,6 @@ thead {
 th,
 td {
     text-align: center;
-    width: 20%;
 }
 
 tr.last-row {
@@ -41,10 +40,28 @@ tr.last-row {
     background-color: #D8D8D8;
 }
 
+.column-number {
+    width: 10%;
+}
+
+.column-player-4 {
+    width: 22.5%;
+}
+
+.column-player-5 {
+    width: 18%;
+}
+
 .col-sm-4 { 
     width: 33.33333333%;
     float: left;
 }
+
+.col-sm-6 { 
+    width: 50%;
+    float: left;
+}
+
 .col-sm-8 { 
     width: 66.66666667%;
     float: left;
