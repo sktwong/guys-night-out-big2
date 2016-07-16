@@ -1,0 +1,43 @@
+<div id="modal-payout">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
+        <h4 class="modal-title">Payout</span></h4>
+    </div>
+    <div class="modal-body">
+<!--
+         <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-xs-5 col-md-5 text-right">
+                    <label for="new-game-players">Point Value:</label>
+                </div>
+                <div class="col-xs-7 col-md-7">
+                    <div class="btn-group">
+                        <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.05'">5&cent;</label>
+                        <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.10'">10&cent;</label>
+                        <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.25'">25&cent;</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+ -->        
+        <table class="table table-striped scores">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Score</th>
+                    <th>Payout ({{ vm.pointValue * 100 }}&cent;)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key, val) in vm.players">
+                    <td><strong>{{ vm.players[key] }}</strong></td>
+                    <td>{{ vm.totals[key] }}</td>
+                    <td>{{ (vm.totals[key] * vm.pointValue) | currency:$:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+    </div>
+</div>

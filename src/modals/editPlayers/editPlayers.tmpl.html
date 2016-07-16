@@ -5,7 +5,7 @@
 <div class="modal-body">
     <form class="form-horizontal">
         <div class="form-group" ng-repeat="(key, value) in vm.players">
-            <label class="col-sm-4 control-label">{{ 'Player ' + ($index + 1)}}</label>
+            <label class="col-sm-4 control-label">{{ 'Player ' + ($index + 1) }}</label>
             <div class="col-sm-6">
                 <input type="text" class="form-control" ng-model="vm.players[key]">
             </div>

@@ -36,8 +36,8 @@
         }
         $scope.gameData = gameData;
         $scope.players = gameData.players;
-        // $scope.scores = removeStartTime(gameData.scores);
         $scope.scores = gameData.scores;
+        $scope.totals = gameData.totals;
         $scope.settings = big2AppService.getSettings();
 
         saveGameData();
@@ -45,7 +45,7 @@
 
         // Keep player names at top of screen when scrolling
         $timeout(function() {
-            $('#scores').floatThead({
+            $('table.scores').floatThead({
                 position: 'fixed',
                 top: 50
             });
@@ -224,6 +224,7 @@
         // Update game data with latest scope data
         gameData.players = $scope.players;
         gameData.scores = $scope.scores;
+        gameData.totals = $scope.totals;
  
         big2AppService.saveData(gameData);
     }

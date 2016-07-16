@@ -8,9 +8,14 @@
 big2App.directive('navBar', function() {
     return {
         restrict: 'E',
-        scope: {},
         templateUrl: 'directives/navBar/navBar.tmpl.html',
         controller: 'navBarController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        link: function(scope, element, attrs) {
+            // Close navbar menu on document click
+            $(document).on('click', function(e) {
+                $('.navbar-collapse.in').collapse('hide');
+            });
+        }
     };
 });

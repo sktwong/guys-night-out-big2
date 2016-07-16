@@ -98,23 +98,24 @@ input::-webkit-inner-spin-button {
     }
 }
 
-#modal-new-game label {
+#modal-new-game label,
+#modal-payout label {
     padding-top: 5px;
 }
 
-#modal-new-game .btn-default.active:focus,
-#modal-new-game .btn-default.active:hover {
+.btn-default.active:focus,
+.btn-default.active:hover {
     background-color: #e6e6e6;
     border-color: #adadad;
 }
 
-#modal-new-game .btn.number-of-players {
+.btn.number-of-players {
     width: 45px;
     padding-left: 8px;
     padding-right: 8px;
 }
 
-#modal-new-game .btn.point-value {
+.btn.point-value {
     width: 45px;
     padding-left: 8px;
     padding-right: 8px;
@@ -129,4 +130,8 @@ input::-webkit-inner-spin-button {
     opacity: 0.5;
     background-color: #000;
     z-index: 1002; /* 1001 - floathead, 1030 - navbar */
+}
+
+#modal-payout label.normal {
+    font-weight: normal;
 }
