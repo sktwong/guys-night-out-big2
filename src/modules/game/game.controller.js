@@ -128,7 +128,8 @@
             // Find game via index and update
             var gameId = parseInt(result.data.id);
             var gameIndex = gameId - 1
-            $scope.scores[gameIndex] = calculateScore(result.data);
+            // $scope.scores[gameIndex] = calculateScore(result.data); // Disabled, may need to calculate score within editScore modal
+            $scope.scores[gameIndex] = result.data;
 
             // If this is the latest game, add a new blank row to score table
             if ($scope.scores.length == gameId) {
