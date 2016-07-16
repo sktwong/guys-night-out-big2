@@ -10,7 +10,7 @@
             <td class="column-number" ng-repeat="(key, value) in score" ng-if="key == 'id'">{{ value || '-' }}</td>
             <td ng-repeat="(key, value) in score" ng-class="(settings.numberOfPlayers == 4) ? 'column-player-4' : 'column-player-5'" ng-if="key != 'id' && key != 'startTime'">{{ value || '-' }}</td>
         </tr>
-        <tr class="last-row info">
+        <tr id="totals" class="last-row info">
             <td>Total</td>
             <td ng-repeat="(key, value) in totals">{{ value || '0' }}</td>
         </tr>

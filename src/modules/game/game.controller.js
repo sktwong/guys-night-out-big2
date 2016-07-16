@@ -5,9 +5,9 @@
  * The core game table
  *
  */
- big2App.controller('gameController', ['$scope', 'big2AppService', '$timeout', '$uibModal', gameControllerFn]);
+ big2App.controller('gameController', ['$scope', 'big2AppService', '$timeout', '$uibModal', '$location', '$anchorScroll', gameControllerFn]);
 
- function gameControllerFn($scope, big2AppService, $timeout, $uibModal) {
+ function gameControllerFn($scope, big2AppService, $timeout, $uibModal, $location, $anchorScroll) {
 
     // Available functions
     $scope.editScore = editScore;
@@ -141,6 +141,10 @@
 
             // Save latest game data
             saveGameData();
+
+            // Scroll to bottom of page
+            $location.hash('totals');
+            $anchorScroll();
         });
     }
 
