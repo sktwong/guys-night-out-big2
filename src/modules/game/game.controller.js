@@ -104,6 +104,10 @@
         editScoreModal.result.then(function(result) {
             $scope.players = result.data;
             saveGameData();
+
+            // Update table header position
+            $('table.scores').trigger('reflow');
+
         });
     }
 
