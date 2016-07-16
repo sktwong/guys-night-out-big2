@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
-    <h4 class="modal-title">Game {{ vm.gameData.id }}  {{ vm.winner }}</h4>
+    <h4 class="modal-title">Game {{ vm.gameData.id }}</h4>
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
@@ -9,7 +9,9 @@
             <div class="col-sm-4">
                 <input type="number" inputmode="numeric" class="form-control" ng-model="vm.gameData[key]" ng-change="vm.winner = ''">
             </div>
-            <label class="col-sm-4 btn btn-default point-value" ng-model="vm.winner" ng-disabled="vm.gameData[key] > 0" ng-click="vm.gameData[key] > 0 || calculateScore()" uib-btn-radio="key">Win</label>
+            <label class="btn btn-default winner" ng-model="vm.winner" ng-disabled="vm.gameData[key] > 0" ng-click="vm.gameData[key] > 0 || calculateScore()" uib-btn-radio="key">
+                <span class="glyphicon glyphicon-ok"></span>
+            </label>
         </div>
     </form>
 </div>

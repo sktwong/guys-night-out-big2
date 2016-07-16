@@ -12,10 +12,23 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
     var vm = this;
     vm.players = angular.copy(data.players);
     vm.gameData = angular.copy(data.gameData);
-    vm.winner = '';
+    vm.winner = findWinner(vm.gameData);
+
+    // Checks whether a winner exists in existing gameData
+    function findWinner(gameData) {
+        var winner = '';
+        angular.forEach(vm.gameData, function(val, key) {
+            if (key.indexOf('player') > -1) {
+                if (val < 0) {
+                    winner = key;
+                }
+            }
+        });
+        return winner;
+    }
 
     $scope.calculateScore = function() {
-        var total = 0;
+        var total = '';
         angular.forEach(vm.gameData, function(val, key) {
             if (key.indexOf('player') > -1) {
                 if (val == 10) { vm.gameData[key] = 20; }

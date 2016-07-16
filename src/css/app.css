@@ -116,6 +116,22 @@ input::-webkit-inner-spin-button {
     padding-right: 8px;
 }
 
+.btn.btn-default.winner {
+    width: 12.5%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.btn.btn-default.winner.active {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;    
+}
+
+.btn.btn-default.winner[disabled] {
+    opacity: 0.4;
+}
+
 #navbar-backdrop {
     position: absolute;
     top: 0;
