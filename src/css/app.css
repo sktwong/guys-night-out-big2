@@ -146,3 +146,7 @@ input::-webkit-inner-spin-button {
 #modal-payout label.normal {
     font-weight: normal;
 }
+
+.glyphicon-usd {
+    top: 2px;
+}
