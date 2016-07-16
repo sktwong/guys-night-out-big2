@@ -5,9 +5,9 @@
  * Creating new game - modal controller
  *
  */
-big2App.controller('modalNewGameController', ['$scope', 'big2AppService', '$uibModalInstance', ModalNewGameControllerFn]);
+big2App.controller('modalNewGameController', ['$scope', 'big2AppService', '$uibModalInstance', modalNewGameControllerFn]);
 
-function ModalNewGameControllerFn($scope, big2AppService, $uibModalInstance) {
+function modalNewGameControllerFn($scope, big2AppService, $uibModalInstance) {
 
     var vm = this;
     vm.numberOfPlayers = '5';

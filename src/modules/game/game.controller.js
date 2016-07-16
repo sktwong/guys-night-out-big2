@@ -5,9 +5,9 @@
  * The core game table
  *
  */
- big2App.controller('gameController', ['$scope', 'big2AppService', '$timeout', '$uibModal', GameControllerFn]);
+ big2App.controller('gameController', ['$scope', 'big2AppService', '$timeout', '$uibModal', gameControllerFn]);
 
- function GameControllerFn($scope, big2AppService, $timeout, $uibModal) {
+ function gameControllerFn($scope, big2AppService, $timeout, $uibModal) {
 
     // Available functions
     $scope.editScore = editScore;
