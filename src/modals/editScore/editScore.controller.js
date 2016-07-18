@@ -5,14 +5,34 @@
  * Editing new / existing score - modal controller
  *
  */
-big2App.controller('modalEditScoreController', ['$scope', 'big2AppService', '$uibModalInstance', 'data', modalEditScoreControllerFn]);
+big2App.controller('modalEditScoreController', ['$scope', 'big2AppService', '$uibModalInstance', 'data', '$timeout', modalEditScoreControllerFn]);
 
-function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, data) {
+function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, data, $timeout) {
 
     var vm = this;
     vm.players = angular.copy(data.players);
-    vm.gameData = angular.copy(data.gameData);
+    vm.gameData = convertScoreToCards(angular.copy(data.gameData));
     vm.winner = findWinner(vm.gameData);
+    // vm.displayTime = new Date(data.gameData.startTime);
+
+    var jsonDate = (new Date()).toJSON();
+    console.log('first date', jsonDate);
+    console.log('second date', new Date(jsonDate));
+    vm.displayTime = new Date(jsonDate);
+
+    // Converts doubled / tripled scores into cards left
+    function convertScoreToCards(data) {
+        angular.forEach(data, function(val, key) {
+            if (key.indexOf('player') > -1) {
+                if (val == 20) { data[key] = 10; }
+                else if (val == 22) { data[key] = 11; }
+                else if (val == 24) { data[key] = 12; }
+                else if (val == 39) { data[key] = 13; }
+                else if (val == '') { data[key] = 0; }
+            }
+        });
+        return data;
+    }
 
     // Checks whether a winner exists in existing gameData
     function findWinner(gameData) {
@@ -27,28 +47,49 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
         return winner;
     }
 
-    $scope.calculateScore = function() {
-        var total = '';
-        angular.forEach(vm.gameData, function(val, key) {
-            if (key.indexOf('player') > -1) {
-                if (val == 10) { vm.gameData[key] = 20; }
-                else if (val == 11) { vm.gameData[key] = 22; }
-                else if (val == 12) { vm.gameData[key] = 24; }
-                else if (val == 13) { vm.gameData[key] = 39; }
-                else if (val < 0) { vm.gameData[key] = ''; }
-
-                // Only add a value if positive, ignore negative values
-                if (val > 0) {
-                    total -= parseInt(vm.gameData[key] || 0);
-                }
-            }
-        });
-        vm.gameData[vm.winner] = total;
+    // Converts cards left into double / tripled scores
+    $scope.convertCardsToScore = function (cards) {
+        var score = 0;
+        if (cards == 10) { score = 20; }
+        else if (cards == 11) { score = 22; }
+        else if (cards == 12) { score = 24; }
+        else if (cards == 13) { score = 39; }
+        else if (cards == '') { score = 0; }
+        else { score = cards; }
+        return score;
     }
+
+    // Sets the winning score, erases any previously set winner
+    $scope.calculateWinningScore = function() {
+        // Only set the winner if it has already been choosen in the modal
+        if (vm.winner) {
+            var total = 0;
+            angular.forEach(vm.gameData, function(val, key) {
+                if (key.indexOf('player') > -1) {
+                    if (val == 10) { val = 20; }
+                    else if (val == 11) { val = 22; }
+                    else if (val == 12) { val = 24; }
+                    else if (val == 13) { val = 39; }
+
+                    // Only add a value if positive, ignore negative values
+                    if (val > 0) {
+                        total -= parseInt(val || 0);
+                    }
+
+                    // Erase any previous winner
+                    if (val < 0) { vm.gameData[key] = ''; }
+                }
+            });
+            vm.gameData[vm.winner] = total;
+        }
+    };
 
     $scope.close = function() {
-        $uibModalInstance.close({ data: vm.gameData });
-    }
+        $uibModalInstance.close({ 
+            data: vm.gameData,
+            winner: vm.winner
+        });
+    };
 
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');

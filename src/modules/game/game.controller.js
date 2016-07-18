@@ -114,7 +114,7 @@
     // Edits score for a game
     function editScore(gameData) {
         var editScoreModal = $uibModal.open({
-            size: 'sm',
+            size: 'md',
             templateUrl: 'modals/editScore/editScore.tmpl.html',
             controller: 'modalEditScoreController',
             controllerAs: 'vm',
@@ -132,8 +132,7 @@
             // Find game via index and update
             var gameId = parseInt(result.data.id);
             var gameIndex = gameId - 1
-            // $scope.scores[gameIndex] = calculateScore(result.data); // Disabled, may need to calculate score within editScore modal
-            $scope.scores[gameIndex] = result.data;
+            $scope.scores[gameIndex] = calculateAllScores(result.data, result.winner);
 
             // If this is the latest game, add a new blank row to score table
             if ($scope.scores.length == gameId) {
@@ -151,6 +150,27 @@
             $location.hash('totals');
             $anchorScroll();
         });
+    }
+
+    // Calculates all game scores, doubling / tripling where necessary
+    function calculateAllScores(data, winner) {
+        var total = '';
+        angular.forEach(data, function(val, key) {
+            if (key.indexOf('player') > -1) {
+                if (val == 10) { data[key] = 20; }
+                else if (val == 11) { data[key] = 22; }
+                else if (val == 12) { data[key] = 24; }
+                else if (val == 13) { data[key] = 39; }
+                else if (val < 0) { data[key] = ''; }
+
+                // Only add a value if positive, ignore negative values
+                if (val > 0) {
+                    total -= parseInt(data[key] || 0);
+                }
+            }
+        });
+        data[winner] = total;
+        return data;
     }
 
     // Validates score entries

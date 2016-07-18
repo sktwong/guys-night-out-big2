@@ -47,6 +47,16 @@ tr.last-row {
     width: 18%;
 }
 
+.col-sm-2 { 
+    width: 16.66666667%;
+    float: left;
+}
+
+.col-sm-3 { 
+    width: 25%;
+    float: left;
+}
+
 .col-sm-4 { 
     width: 33.33333333%;
     float: left;
@@ -117,9 +127,11 @@ input::-webkit-inner-spin-button {
 }
 
 .btn.btn-default.winner {
-    width: 12.5%;
+    width: 40px;
     padding-left: 10px;
     padding-right: 10px;
+    margin-left: 50%;
+    left: -20px; /* Width of checkbox */
 }
 
 .btn.btn-default.winner.active {
@@ -147,6 +159,30 @@ input::-webkit-inner-spin-button {
     font-weight: normal;
 }
 
+#modal-edit-score .header {
+    margin-bottom: 25px;
+}
+
 .glyphicon-usd {
     top: 2px;
+}
+
+md-slider[md-discrete] ._md-sign,
+md-slider[md-discrete] ._md-sign:after {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+md-slider[md-discrete] ._md-sign,
+md-slider.md-primary ._md-track._md-track-fill {
+    background-color: #337ab7;
+}
+
+md-slider[md-discrete] ._md-sign:after {
+    border-top-color: #337ab7;
+}
+
+md-slider[md-discrete] ._md-thumb {
+    display: none;
 }
