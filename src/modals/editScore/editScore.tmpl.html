@@ -1,7 +1,7 @@
 <div id="modal-edit-score">
     <div class="modal-header">
         <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
-        <h4 class="modal-title">Score for Game {{ vm.gameData.id }} - {{ vm.gameData.startTime | date : 'h:mma' | lowercase }} on {{ vm.gameData.startTime | date : 'MMM d, yyyy'}}</h4>
+        <h4 class="modal-title">Score for Game {{ vm.gameData.id }} - {{ vm.gameData.timestamp | date : 'h:mma' | lowercase }} on {{ vm.gameData.timestamp | date : 'MMM d, yyyy'}}</h4>
     </div>
     <div class="modal-body">
         <form class="form-horizontal">
@@ -13,21 +13,19 @@
                 <label class="col-sm-2">Winner</label>
             </div>
 
-            <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key != 'id' && key != 'startTime'">
+            <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key.indexOf('player') > -1">
                 <label class="col-sm-3 control-label">{{ vm.players[key] || 'Player ' + ($index - 1)}}</label>
-                <div class="col-sm-4">
+                <div class="col-sm-4 slider">
                     <div layout>
-                        <md-slider flex md-discrete class="md-primary" ng-model="vm.gameData[key]" ng-change="calculateWinningScore()" step="1" min="0" max="13" aria-label="rating">
+                        <md-slider flex md-discrete class="md-primary" ng-model="vm.gameData[key]" ng-disabled="vm.winner == key" ng-change="calculateWinningScore()" step="1" min="0" max="13" aria-label="rating">
                         </md-slider>
                     </div>
                 </div>
-                <div class="col-sm-2 text-center">{{ convertCardsToScore(vm.gameData[key]) }}</div>
+                <div class="col-sm-2 score text-center">{{ convertCardsToScore(vm.gameData[key]) }}</div>
                 <div class="col-sm-2">
-                    <div>
                     <span class="col-sm-2 btn btn-default winner" ng-model="vm.winner" ng-disabled="vm.gameData[key] > 0" ng-click="vm.gameData[key] > 0 || calculateWinningScore()" uib-btn-radio="key">
                         <span class="glyphicon glyphicon-ok"></span>
                     </span>
-                    </div>
                 </div>
             </div>
          </form>

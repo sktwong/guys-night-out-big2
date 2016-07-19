@@ -5,6 +5,7 @@
  * App configuration
  *
  */
+var big2App = angular.module('big2App', ['ngRoute', 'LocalStorageModule', 'ui.bootstrap', 'ngMaterial']);
 
 // Configure Routes
 big2App.config(function($routeProvider) {

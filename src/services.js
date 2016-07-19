@@ -22,7 +22,6 @@ function Big2AppServiceFn(localStorageService) {
     };
 
     function createNewGame(settings) {
-
         // Temp setting of players
         var players = {'player1': '', 'player2': '', 'player3': '', 'player4': ''};
         if (settings.numberOfPlayers == '5') {
@@ -30,7 +29,7 @@ function Big2AppServiceFn(localStorageService) {
         }
 
         var scores = [];
-        scores.push(createNewScore(1, settings));
+        // scores.push(createNewScore(1, settings));
 
         var newGameData = {
             'settings': settings,
@@ -43,7 +42,7 @@ function Big2AppServiceFn(localStorageService) {
     function createNewScore(newGameId, settings) {
         var newScore = { 
             'id': newGameId,
-            'startTime': (new Date()).toJSON()
+            'timestamp': (new Date()).toJSON()
         };
         for (var i = 0; i < settings.numberOfPlayers; i++) {
             newScore['player' + (i + 1)] = '';

@@ -163,6 +163,14 @@ input::-webkit-inner-spin-button {
     margin-bottom: 25px;
 }
 
+#modal-edit-score .slider {
+    margin-top: 6px;
+}
+
+#modal-edit-score .score {
+    margin-top: 6px;
+}
+
 .glyphicon-usd {
     top: 2px;
 }
@@ -183,6 +191,7 @@ md-slider[md-discrete] ._md-sign:after {
     border-top-color: #337ab7;
 }
 
-md-slider[md-discrete] ._md-thumb {
+md-slider[md-discrete] ._md-thumb,
+md-slider[md-discrete] ._md-disabled-thumb {
     display: none;
 }
