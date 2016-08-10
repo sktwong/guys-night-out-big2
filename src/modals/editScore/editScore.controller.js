@@ -79,6 +79,7 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
     };
 
     $scope.close = function() {
+        vm.gameData.timestamp = (new Date()).toJSON();
         $uibModalInstance.close({ 
             data: vm.gameData,
             winner: vm.winner

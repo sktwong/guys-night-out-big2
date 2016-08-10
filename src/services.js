@@ -41,8 +41,7 @@ function Big2AppServiceFn(localStorageService) {
 
     function createNewScore(newGameId, settings) {
         var newScore = { 
-            'id': newGameId,
-            'timestamp': (new Date()).toJSON()
+            'id': newGameId
         };
         for (var i = 0; i < settings.numberOfPlayers; i++) {
             newScore['player' + (i + 1)] = '';
