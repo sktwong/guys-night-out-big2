@@ -14,10 +14,6 @@ big2App.config(function($routeProvider) {
         .when('/', {
             templateUrl: 'modules/game/game.tmpl.html',
             controller: 'gameController'
-        })
-        .when('/data', {
-            templateUrl: 'modules/data/data.tmpl.html',
-            controller: 'dataController'
         });
 });
 

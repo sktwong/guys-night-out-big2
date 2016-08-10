@@ -13,6 +13,7 @@ function navBarControllerFn($scope, $uibModal, big2AppService, $route) {
     vm.newGameModal = newGameModal;
     vm.dataModal = dataModal;
     vm.payoutModal = payoutModal;
+    vm.statsModal = statsModal;
 
     function newGameModal() {
         var newGameModal = $uibModal.open({
@@ -38,10 +39,19 @@ function navBarControllerFn($scope, $uibModal, big2AppService, $route) {
     }
 
     function payoutModal() {
-        var dataModal = $uibModal.open({
+        var payoutModal = $uibModal.open({
             size: 'sm',
             templateUrl: 'modals/payout/payout.tmpl.html',
             controller: 'modalPayoutController',
+            controllerAs: 'vm'
+        });
+    }
+
+    function statsModal() {
+        var statsModal = $uibModal.open({
+            size: 'md',
+            templateUrl: 'modals/stats/stats.tmpl.html',
+            controller: 'modalStatsController',
             controllerAs: 'vm'
         });
     }
