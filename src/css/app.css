@@ -10,6 +10,10 @@ body {
     cursor: pointer;
 }
 
+.panel-heading {
+    font-weight: bold;
+}
+
 thead {
     background: #fff;
 }
@@ -178,4 +182,12 @@ md-slider[md-discrete] ._md-disabled-thumb {
 md-slider[md-discrete] ._md-track-ticks canvas {
     height: 6px;
     bottom: -2px;
+}
+
+#modal-stats table {
+    table-layout: fixed;
+}
+
+#modal-stats #table-overall-stats td {
+    border: none;
 }
