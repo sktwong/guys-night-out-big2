@@ -7,15 +7,15 @@
         <form class="form-horizontal">
 
             <div class="form-group header text-center">
-                <div class="col-sm-3"></div>
-                <label class="col-sm-4">Cards Left</label>
+                <div class="col-sm-2"></div>
+                <label class="col-sm-6">Cards Left</label>
                 <label class="col-sm-2">Score</label>
                 <label class="col-sm-2">Winner</label>
             </div>
 
             <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key.indexOf('player') > -1">
-                <label class="col-sm-3 control-label">{{ vm.players[key] || 'Player ' + ($index - 1)}}</label>
-                <div class="col-sm-4 slider">
+                <label class="col-sm-2 control-label">{{ vm.players[key] || 'Player ' + ($index - 1)}}</label>
+                <div class="col-sm-6 slider">
                     <div layout>
                         <md-slider flex md-discrete class="md-primary" ng-model="vm.gameData[key]" ng-disabled="vm.winner == key" ng-change="calculateWinningScore()" step="1" min="0" max="13" aria-label="rating">
                         </md-slider>
