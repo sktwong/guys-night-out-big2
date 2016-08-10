@@ -174,3 +174,8 @@ md-slider[md-discrete] ._md-thumb,
 md-slider[md-discrete] ._md-disabled-thumb {
     display: none;
 }
+
+md-slider[md-discrete] ._md-track-ticks canvas {
+    height: 6px;
+    bottom: -2px;
+}
