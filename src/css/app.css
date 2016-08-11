@@ -26,6 +26,10 @@ td {
 .table {
 }
 
+.table > thead > tr th {
+    border-bottom: 2px solid #696969;
+}
+
 .table > tbody > tr.row-divider td {
     border-top: 2px solid #696969;
 }
@@ -186,4 +190,8 @@ md-slider[md-discrete] ._md-track-ticks canvas {
 
 #modal-stats #table-overall-stats td {
     border: none;
+}
+
+#modal-stats #table-individual-stats thead th:first-child {
+    width: 30%;
 }

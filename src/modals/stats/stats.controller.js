@@ -12,52 +12,93 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     var vm = this;
     var data = big2AppService.getData();
     vm.players = data.players;
+    vm.totals = data.totals;
     vm.gamesPlayed = data.scores.length;
 
     vm.stats = {
         totalWins: initBlankStats(),
+        totalSmallWins: initBlankStats(),
         totalLosses: initBlankStats(),
+        totalSmallLosses: initBlankStats(),
         totalSits: initBlankStats(),
         totalPlayed: initBlankStats(),
         totalDoubles: initBlankStats(),
         totalTriples: initBlankStats(),
         winPercentage: initBlankStats(),
+        smallWinPercentage: initBlankStats(),
         lossPercentage: initBlankStats(),
+        smallLossPercentage: initBlankStats(),
         totalBigLoser: initBlankStats(),
         avgWinningScore: initBlankStats(),
         avgLosingScore: initBlankStats(),
         winningScores: initBlankStatsArray(),
-        losingScores: initBlankStatsArray()
+        losingScores: initBlankStatsArray(),
+        winningStreaks: initBlankStats(),
+        biggestWinningStreak: initBlankStats(),
+        losingStreaks: initBlankStats(),
+        biggestLosingStreak: initBlankStats(),
+        playingStreaks: initBlankStats(),
+        biggestPlayingStreak: initBlankStats()
     };
 
     vm.gameStats = {
         mostWins: { number: 0, players: [] },
-        mostLosses: { number: 0, players: [] }
+        mostLosses: { number: 0, players: [] },
+        biggestWin: { score: 0, winners: [], formattedWinners: '' }
     }
 
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
         var biggestLosingScore = 0;
-        console.log('score', score);
 
         angular.forEach(score, function(val, key) {
 
             if (key.indexOf('player') > -1) {
-                // Total wins
+                // Total wins, win streaks
                 if (val < 0) {
                     vm.stats.totalWins[key]++;
                     vm.stats.winningScores[key].push({ id: score.id, score: val });
+
+                    // Increment winning streak
+                    vm.stats.winningStreaks[key]++;
+
+                    // Set biggest losing streak
+                    if (vm.stats.losingStreaks[key] > vm.stats.biggestLosingStreak[key]) {
+                        vm.stats.biggestLosingStreak[key] = vm.stats.losingStreaks[key];
+                    }
+                    vm.stats.losingStreaks[key] = 0;
+
+                    // Increment playing streak
+                    vm.stats.playingStreaks[key]++;
                 }
 
-                // Total losses
+                // Total losses / loss streaks
                 if (val > 0) {
                     vm.stats.totalLosses[key]++;
                     vm.stats.losingScores[key].push({ id: score.id, score: val });
+
+                    // Increment losing streak
+                    vm.stats.losingStreaks[key]++;
+
+                    // Set biggest winning streak
+                    if (vm.stats.winningStreaks[key] > vm.stats.biggestWinningStreak[key]) {
+                        vm.stats.biggestWinningStreak[key] = vm.stats.winningStreaks[key];
+                    }
+                    vm.stats.winningStreaks[key] = 0;
+
+                    // Increment playing streak
+                    vm.stats.playingStreaks[key]++;
                 }
 
                 // Total games sat out
                 if (val == 0) {
                     vm.stats.totalSits[key]++;
+
+                    // Set biggest playing streak
+                    if (vm.stats.playingStreaks[key] > vm.stats.biggestPlayingStreak[key]) {
+                        vm.stats.biggestPlayingStreak[key] = vm.stats.playingStreaks[key];
+                    }
+                    vm.stats.playingStreaks[key] = 0;
                 }
 
                 // Total games played
@@ -75,8 +116,19 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
                     vm.stats.totalTriples[key]++;
                 }
 
+                // Set the biggest losing score
                 if (val > biggestLosingScore) {
                     biggestLosingScore = val;
+                }
+
+                // Total small wins (3 - 9 cards)
+                if (val >= -9 && val <= -3) {
+                    vm.stats.totalSmallWins[key]++;
+                }
+
+                // Total small losses (1 - 3 cards)
+                if (val == 1 || val == 2 || val == 3) {
+                    vm.stats.totalSmallLosses[key]++;
                 }
             }
         });
@@ -94,7 +146,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     // - average winning / losing score
     angular.forEach(vm.players, function(val, key) {
         vm.stats.winPercentage[key] = (vm.stats.totalWins[key] / vm.stats.totalPlayed[key] * 100).toFixed(0);
+        vm.stats.smallWinPercentage[key] = (vm.stats.totalSmallWins[key] / vm.stats.totalWins[key] * 100).toFixed(0);
         vm.stats.lossPercentage[key] = (vm.stats.totalLosses[key] / vm.stats.totalPlayed[key] * 100).toFixed(0);
+        vm.stats.smallLossPercentage[key] = (vm.stats.totalSmallLosses[key] / vm.stats.totalLosses[key] * 100).toFixed(0);
 
         var totalWinningScores = 0;
         angular.forEach(vm.stats.winningScores[key], function(val, key) {
@@ -109,7 +163,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         vm.stats.avgLosingScore[key] = (totalLosingScores / (vm.stats.totalLosses[key] || 1)).toFixed(0);
     });
 
-    // Calculate most wins
+    // Calculate most wins, biggest win
+    var biggestWin = 0;
     angular.forEach(vm.stats.winningScores, function(val, key) {
         if (val.length > vm.gameStats.mostWins.number) {
             vm.gameStats.mostWins.number = val.length;
@@ -119,6 +174,26 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         else if (val.length == vm.gameStats.mostWins.number) {
             vm.gameStats.mostWins.players.push(vm.players[key] || key);   
         }
+
+        // Determine the biggest win(s)
+        angular.forEach(val, function(val) {
+            if (val.score < vm.gameStats.biggestWin.score) {
+                vm.gameStats.biggestWin.score = val.score;
+                vm.gameStats.biggestWin.winners = [{
+                    player: vm.players[key],
+                    gameId: val.id
+                }];
+                vm.gameStats.biggestWin.formattedWinners = [vm.players[key] + ' - Game ' + val.id];
+            }
+
+            else if (val.score == vm.gameStats.biggestWin.score) {
+                vm.gameStats.biggestWin.winners.push({
+                    player: vm.players[key],
+                    gameId: val.id
+                });
+                vm.gameStats.biggestWin.formattedWinners.push(vm.players[key] + ' - Game ' + val.id);
+            }
+        });
     });
 
     // Calculate most losses

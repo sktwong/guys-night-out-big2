@@ -8,7 +8,13 @@
     <tbody>
         <tr ng-repeat="score in scores" class="scores" ng-click="editScore(score)">
             <td class="column-number" ng-repeat="(key, value) in score" ng-if="key == 'id'">{{ value || '-' }}</td>
-            <td ng-repeat="(key, value) in score" ng-class="{ success: (value < 0), 'column-player-4': (settings.numberOfPlayers == 4), 'column-player-5': (settings.numberOfPlayers == 5) }" ng-if="key.indexOf('player') > -1">{{ value || '-' }}</td>
+            <td ng-repeat="(key, value) in score" 
+                ng-class="{ 'success': (value < 0),
+                            'danger': (value >= 20),
+                            'column-player-4': (settings.numberOfPlayers == 4), 
+                            'column-player-5': (settings.numberOfPlayers == 5) }"
+                ng-if="key.indexOf('player') > -1">{{ value || '-' }}
+            </td>
         </tr>
         <tr id="add-new-score" class="cursor-pointer">
             <td colspan="{{ settings.numberOfPlayers + 1 }}" ng-click="addNewScore()"><span class="glyphicon glyphicon-plus"></span> <strong>Add new score</strong></td>

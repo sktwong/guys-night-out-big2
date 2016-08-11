@@ -20,30 +20,42 @@
                         <td class="text-right"><strong>Most Losses: </strong></td>
                         <td class="text-left" colspan="3">{{ vm.gameStats.mostLosses.players.join(', ') }} ({{ vm.gameStats.mostLosses.number }})</td>
                     </tr>
+                    <tr>
+                        <td class="text-right"><strong>Biggest Win: </strong></td>
+                        <td class="text-left" colspan="3">{{ vm.gameStats.biggestWin.score }} ({{ vm.gameStats.biggestWin.formattedWinners.join(', ') }})</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">Individual Performance</div>
-            <table class="table table-striped">
+            <table id="table-individual-stats" class="table table-striped">
                 <thead>
-                    <tr class="players" ng-click="editPlayers()">
-                        <th></th>
+                    <tr class="players row-divider" ng-click="editPlayers()">
+                        <th class="col-sm-3"></th>
                         <th ng-repeat="(key, value) in vm.players">{{ value || 'Player ' + ($index + 1) }}</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="row-divider">
-                        <td><strong>Played</strong></td>
+                    <tr>
+                        <td><strong>Final Score</strong></td>
+                        <td ng-repeat="(key, value) in vm.totals">{{ value || '0' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Games Played</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.totalPlayed">{{ value || 0 }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Longest Playing Streak</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestPlayingStreak">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Sat Out</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.totalSits">{{ value || 0 }}</td>
                     </tr>
                     <tr class="row-divider">
-                        <td><strong>Wins</strong></td>
+                        <td><strong># of Wins</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.totalWins">{{ value || 0 }}</td>
                     </tr>
                     <tr>
@@ -51,11 +63,23 @@
                         <td ng-repeat="(key, value) in vm.stats.winPercentage">{{ value || 0 }}%</td>
                     </tr>
                     <tr>
+                        <td><strong>Small Wins (-9 or less)</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.totalSmallWins">{{ value || 0 }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Small Wins %</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.smallWinPercentage">{{ value || 0 }}%</td>
+                    </tr>
+                    <tr>
                         <td><strong>Avg Win</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.avgWinningScore">{{ value || 0 }}</td>
                     </tr>
+                    <tr>
+                        <td><strong>Longest Winning Streak</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestWinningStreak">{{ value || 0 }}</td>
+                    </tr>
                     <tr class="row-divider">
-                        <td><strong>Losses</strong></td>
+                        <td><strong># of Losses</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.totalLosses">{{ value || 0 }}</td>
                     </tr>
                     <tr>
@@ -63,8 +87,20 @@
                         <td ng-repeat="(key, value) in vm.stats.lossPercentage">{{ value || 0 }}%</td>
                     </tr>
                     <tr>
+                        <td><strong>Small Losses (3 or less)</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.totalSmallLosses">{{ value || 0 }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Small Loss %</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.smallLossPercentage">{{ value || 0 }}%</td>
+                    </tr>
+                    <tr>
                         <td><strong>Avg Loss</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.avgLosingScore">{{ value || 0 }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Longest Losing Streak</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestLosingStreak">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Doubles</strong></td>
