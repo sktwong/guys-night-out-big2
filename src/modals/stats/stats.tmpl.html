@@ -1,0 +1,74 @@
+<div id="modal-stats">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
+        <h4 class="modal-title"><span class="glyphicon glyphicon-stats"></span> Statistics</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">Overall Stats</div>
+            <table id="table-overall-stats" class="table">
+                <tbody>
+                    <tr>
+                        <td class="text-right"><strong>Total Games Played: </strong></td>
+                        <td class="text-left">14</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Most Wins: </strong></td>
+                        <td class="text-left">Steve (13)</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Most Losses: </strong></td>
+                        <td class="text-left">Marcus (12)</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Individual Performance</div>
+            <table class="table table-striped">
+                <thead>
+                    <tr class="players" ng-click="editPlayers()">
+                        <th></th>
+                        <th ng-repeat="(key, value) in vm.players">{{ value || 'Player ' + ($index + 1) }}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Games Played</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Games Won</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Games Lost</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+    </div>
+</div>
