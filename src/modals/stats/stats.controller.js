@@ -30,6 +30,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         losingScores: initBlankStatsArray()
     };
 
+    vm.gameStats = {
+        mostWins: { number: 0, players: [] },
+        mostLosses: { number: 0, players: [] }
+    }
+
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
         var biggestLosingScore = 0;
@@ -104,8 +109,29 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         vm.stats.avgLosingScore[key] = (totalLosingScores / (vm.stats.totalLosses[key] || 1)).toFixed(0);
     });
 
-    // Calculate average winning score
-    // console.log('winning scores', vm.stats.winningScores);
+    // Calculate most wins
+    angular.forEach(vm.stats.winningScores, function(val, key) {
+        if (val.length > vm.gameStats.mostWins.number) {
+            vm.gameStats.mostWins.number = val.length;
+            vm.gameStats.mostWins.players = [vm.players[key]];
+        }
+
+        else if (val.length == vm.gameStats.mostWins.number) {
+            vm.gameStats.mostWins.players.push(vm.players[key]);   
+        }
+    });
+
+    // Calculate most losses
+    angular.forEach(vm.stats.losingScores, function(val, key) {
+        if (val.length > vm.gameStats.mostLosses.number) {
+            vm.gameStats.mostLosses.number = val.length;
+            vm.gameStats.mostLosses.players = [vm.players[key]];
+        }
+
+        else if (val.length == vm.gameStats.mostLosses.number) {
+            vm.gameStats.mostLosses.players.push(vm.players[key]);   
+        }
+    });
 
     function initBlankStats() {
         var settings = big2AppService.getSettings();

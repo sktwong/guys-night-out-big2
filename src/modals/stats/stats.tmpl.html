@@ -10,21 +10,15 @@
                 <tbody>
                     <tr>
                         <td class="text-right"><strong>Total Games Played: </strong></td>
-                        <td class="text-left">14</td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-left" colspan="3">{{ vm.gamesPlayed }}</td>
                     </tr>
                     <tr>
                         <td class="text-right"><strong>Most Wins: </strong></td>
-                        <td class="text-left">Steve (13)</td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-left" colspan="3">{{ vm.gameStats.mostWins.players.join(', ') }} ({{ vm.gameStats.mostWins.number }})</td>
                     </tr>
                     <tr>
                         <td class="text-right"><strong>Most Losses: </strong></td>
-                        <td class="text-left">Marcus (12)</td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-left" colspan="3">{{ vm.gameStats.mostLosses.players.join(', ') }} ({{ vm.gameStats.mostLosses.number }})</td>
                     </tr>
                 </tbody>
             </table>
