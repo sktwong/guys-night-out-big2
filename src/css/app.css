@@ -23,14 +23,10 @@ td {
     text-align: center;
 }
 
-tr.last-row {
-    font-weight: bold;
-}
-
 .table {
 }
 
-.table > tbody > tr.last-row td {
+.table > tbody > tr.row-divider td {
     border-top: 2px solid #696969;
 }
 

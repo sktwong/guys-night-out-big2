@@ -113,11 +113,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     angular.forEach(vm.stats.winningScores, function(val, key) {
         if (val.length > vm.gameStats.mostWins.number) {
             vm.gameStats.mostWins.number = val.length;
-            vm.gameStats.mostWins.players = [vm.players[key]];
+            vm.gameStats.mostWins.players = [vm.players[key] || key];
         }
 
         else if (val.length == vm.gameStats.mostWins.number) {
-            vm.gameStats.mostWins.players.push(vm.players[key]);   
+            vm.gameStats.mostWins.players.push(vm.players[key] || key);   
         }
     });
 
@@ -125,11 +125,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     angular.forEach(vm.stats.losingScores, function(val, key) {
         if (val.length > vm.gameStats.mostLosses.number) {
             vm.gameStats.mostLosses.number = val.length;
-            vm.gameStats.mostLosses.players = [vm.players[key]];
+            vm.gameStats.mostLosses.players = [vm.players[key] || key];
         }
 
         else if (val.length == vm.gameStats.mostLosses.number) {
-            vm.gameStats.mostLosses.players.push(vm.players[key]);   
+            vm.gameStats.mostLosses.players.push(vm.players[key] || key);
         }
     });
 
