@@ -38,9 +38,26 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr ng-repeat="(parentKey, parentValue) in vm.stats"
+                        ng-if="parentKey != 'winningScores' 
+                                && parentKey != 'losingScores'">
+                        <td><strong>{{ parentValue.label }}</strong></td>
+                        <td ng-repeat="(key, value) in parentValue"
+                            ng-class="{'success': key == parentValue.biggest}"
+                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table>
+                <tbody>
                     <tr>
-                        <td><strong>Final Score</strong></td>
-                        <td ng-repeat="(key, value) in vm.totals">{{ value || '0' }}</td>
+                        <td><strong>--Final Score</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.totals" 
+                            ng-class="{'success': key == vm.stats.totals.biggest}"
+                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>Games Played</strong></td>
@@ -61,6 +78,10 @@
                     <tr>
                         <td><strong>Win %</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.winPercentage">{{ value || 0 }}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Biggest Win</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestWin">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Small Wins (-9 or less)</strong></td>

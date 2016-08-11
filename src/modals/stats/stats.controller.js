@@ -12,10 +12,10 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     var vm = this;
     var data = big2AppService.getData();
     vm.players = data.players;
-    vm.totals = data.totals;
     vm.gamesPlayed = data.scores.length;
 
     vm.stats = {
+        totals: data.totals,
         totalWins: initBlankStats(),
         totalSmallWins: initBlankStats(),
         totalLosses: initBlankStats(),
@@ -38,7 +38,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         losingStreaks: initBlankStats(),
         biggestLosingStreak: initBlankStats(),
         playingStreaks: initBlankStats(),
-        biggestPlayingStreak: initBlankStats()
+        biggestPlayingStreak: initBlankStats(),
+        biggestWin: initBlankStats()
     };
 
     vm.gameStats = {
@@ -46,6 +47,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         mostLosses: { number: 0, players: [] },
         biggestWin: { score: 0, winners: [], formattedWinners: '' }
     }
+
+    // Set labels of each stat
+    vm.stats.totals.label = 'Final Score';
+    vm.stats.totalWins.label = '# of Wins';
+    vm.stats.winningStreaks.label = 'Win streak';
 
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
@@ -177,6 +183,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
 
         // Determine the biggest win(s)
         angular.forEach(val, function(val) {
+            // Set overall biggest win
             if (val.score < vm.gameStats.biggestWin.score) {
                 vm.gameStats.biggestWin.score = val.score;
                 vm.gameStats.biggestWin.winners = [{
@@ -193,6 +200,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
                 });
                 vm.gameStats.biggestWin.formattedWinners.push(vm.players[key] + ' - Game ' + val.id);
             }
+
+            // Set individual biggest win
+            if (val.score < vm.stats.biggestWin[key]) {
+                vm.stats.biggestWin[key] = val.score;
+            }
         });
     });
 
@@ -206,6 +218,29 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         else if (val.length == vm.gameStats.mostLosses.number) {
             vm.gameStats.mostLosses.players.push(vm.players[key] || key);
         }
+    });
+
+    // Flag the biggest stat in each set
+    angular.forEach(vm.stats, function(stat, statKey) {
+        var biggestVal = 0;
+        var biggestKey = null;
+
+        if (statKey == 'totals') {
+            angular.forEach(stat, function(val, key) {
+                if (val < biggestVal) {
+                    biggestVal = val;
+                    biggestKey = key;
+                }
+            });
+        } else {
+            angular.forEach(stat, function(val, key) {
+                if (Math.abs(val) > biggestVal) {
+                    biggestVal = Math.abs(val);
+                    biggestKey = key;
+                }
+            });
+        }
+        stat.biggest = biggestKey;
     });
 
     function initBlankStats() {
