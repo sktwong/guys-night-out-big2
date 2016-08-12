@@ -5,17 +5,24 @@
  * Game stats - modal controller
  *
  */
-big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', modalStatsControllerFn]);
+big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'showHistory', modalStatsControllerFn]);
 
-function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
+function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showHistory) {
+
 
     var vm = this;
-    var data = big2AppService.getData();
+    var data = null;
+    if (showHistory) {
+        data = big2AppService.getHistory();
+    } else {
+        data = big2AppService.getData();
+    }
+
     vm.players = data.players;
     vm.gamesPlayed = data.scores.length;
 
     vm.stats = {
-        totals: data.totals,
+        totals: data.totals || initBlankStats(),
         totalWins: initBlankStats(),
         totalSmallWins: initBlankStats(),
         totalLosses: initBlankStats(),
@@ -61,13 +68,13 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
                     vm.stats.totalWins[key]++;
                     vm.stats.winningScores[key].push({ id: score.id, score: val });
 
-                    // Increment winning streak
+                    // Increment winning streak, set biggest winning streak
                     vm.stats.winningStreaks[key]++;
-
-                    // Set biggest losing streak
-                    if (vm.stats.losingStreaks[key] > vm.stats.biggestLosingStreak[key]) {
-                        vm.stats.biggestLosingStreak[key] = vm.stats.losingStreaks[key];
+                    if (vm.stats.winningStreaks[key] > vm.stats.biggestWinningStreak[key]) {
+                        vm.stats.biggestWinningStreak[key] = vm.stats.winningStreaks[key];
                     }
+
+                    // Reset losing streak
                     vm.stats.losingStreaks[key] = 0;
 
                     // Increment playing streak
@@ -79,13 +86,13 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
                     vm.stats.totalLosses[key]++;
                     vm.stats.losingScores[key].push({ id: score.id, score: val });
 
-                    // Increment losing streak
+                    // Increment losing streak, set biggest losing streak
                     vm.stats.losingStreaks[key]++;
-
-                    // Set biggest winning streak
-                    if (vm.stats.winningStreaks[key] > vm.stats.biggestWinningStreak[key]) {
-                        vm.stats.biggestWinningStreak[key] = vm.stats.winningStreaks[key];
+                    if (vm.stats.losingStreaks[key] > vm.stats.biggestLosingStreak[key]) {
+                        vm.stats.biggestLosingStreak[key] = vm.stats.losingStreaks[key];
                     }
+
+                    // Reset winning streak
                     vm.stats.winningStreaks[key] = 0;
 
                     // Increment playing streak
@@ -147,10 +154,10 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     // - win / loss percentages
     // - average winning / losing score
     angular.forEach(vm.players, function(val, key) {
-        vm.stats.winPercentage[key] = (vm.stats.totalWins[key] / vm.stats.totalPlayed[key] * 100).toFixed(0);
-        vm.stats.smallWinPercentage[key] = (vm.stats.totalSmallWins[key] / vm.stats.totalWins[key] * 100).toFixed(0);
-        vm.stats.lossPercentage[key] = (vm.stats.totalLosses[key] / vm.stats.totalPlayed[key] * 100).toFixed(0);
-        vm.stats.smallLossPercentage[key] = (vm.stats.totalSmallLosses[key] / vm.stats.totalLosses[key] * 100).toFixed(0);
+        vm.stats.winPercentage[key] = (vm.stats.totalWins[key] / (vm.stats.totalPlayed[key] || 1) * 100).toFixed(0);
+        vm.stats.smallWinPercentage[key] = (vm.stats.totalSmallWins[key] / (vm.stats.totalWins[key] || 1) * 100).toFixed(0);
+        vm.stats.lossPercentage[key] = (vm.stats.totalLosses[key] / (vm.stats.totalPlayed[key] || 1) * 100).toFixed(0);
+        vm.stats.smallLossPercentage[key] = (vm.stats.totalSmallLosses[key] / (vm.stats.totalLosses[key] || 1) * 100).toFixed(0);
 
         var totalWinningScores = 0;
         angular.forEach(vm.stats.winningScores[key], function(val, key) {
@@ -253,7 +260,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
                 }
             }
         });
-        stat.biggest = biggestKey;
+        if (stat) {
+            stat.biggest = biggestKey;
+        }
     });
 
     function initBlankStats() {
