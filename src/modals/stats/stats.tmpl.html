@@ -24,10 +24,6 @@
                         <td class="text-right"><strong>Biggest Win: </strong></td>
                         <td class="text-left" colspan="3">{{ vm.gameStats.biggestWin.score }} ({{ vm.gameStats.biggestWin.formattedWinners.join(', ') }})</td>
                     </tr>
-                    <tr>
-                        <td class="text-right"><strong>Longest Losing Streak: </strong></td>
-                        <td class="text-left" colspan="3">{{ vm.gameStats.biggestLosingStreak.players.join(', ') }} ({{ vm.gameStats.biggestLosingStreak.number }})</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -42,145 +38,102 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr ng-repeat="(parentKey, parentValue) in vm.stats"
+                        ng-if="parentKey != 'winningScores' 
+                                && parentKey != 'losingScores'">
+                        <td><strong>{{ parentValue.label }}</strong></td>
+                        <td ng-repeat="(key, value) in parentValue"
+                            ng-class="{'success': key == parentValue.biggest}"
+                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table>
+                <tbody>
                     <tr>
-                        <td><strong>Final Score</strong></td>
+                        <td><strong>--Final Score</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.totals" 
-                            ng-class="{'success': vm.stats.totals.biggest.indexOf(key) > -1 && value != 0}"
+                            ng-class="{'success': key == vm.stats.totals.biggest}"
                             ng-if="key.indexOf('player') > -1">{{ value || '0' }}
                         </td>
                     </tr>
                     <tr>
                         <td><strong>Games Played</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalPlayed" 
-                            ng-class="{'success': vm.stats.totalPlayed.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalPlayed">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Longest Playing Streak</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.biggestPlayingStreak" 
-                            ng-class="{'success': vm.stats.biggestPlayingStreak.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestPlayingStreak">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Sat Out</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalSits" 
-                            ng-class="{'success': vm.stats.totalSits.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalSits">{{ value || 0 }}</td>
                     </tr>
                     <tr class="row-divider">
                         <td><strong># of Wins</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalWins" 
-                            ng-class="{'success': vm.stats.totalWins.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalWins">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Win %</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.winPercentage" 
-                            ng-class="{'success': vm.stats.winPercentage.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.winPercentage">{{ value || 0 }}%</td>
                     </tr>
                     <tr>
                         <td><strong>Biggest Win</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.biggestWin" 
-                            ng-class="{'success': vm.stats.biggestWin.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestWin">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Small Wins (-9 or less)</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalSmallWins" 
-                            ng-class="{'success': vm.stats.totalSmallWins.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalSmallWins">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Small Wins %</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.smallWinPercentage" 
-                            ng-class="{'success': vm.stats.smallWinPercentage.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.smallWinPercentage">{{ value || 0 }}%</td>
                     </tr>
                     <tr>
                         <td><strong>Avg Win</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.avgWinningScore" 
-                            ng-class="{'success': vm.stats.avgWinningScore.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.avgWinningScore">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Longest Winning Streak</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.biggestWinningStreak" 
-                            ng-class="{'success': vm.stats.biggestWinningStreak.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestWinningStreak">{{ value || 0 }}</td>
                     </tr>
                     <tr class="row-divider">
                         <td><strong># of Losses</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalLosses" 
-                            ng-class="{'success': vm.stats.totalLosses.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalLosses">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Loss %</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.lossPercentage" 
-                            ng-class="{'success': vm.stats.lossPercentage.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.lossPercentage">{{ value || 0 }}%</td>
                     </tr>
                     <tr>
                         <td><strong>Small Losses (3 or less)</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalSmallLosses" 
-                            ng-class="{'success': vm.stats.totalSmallLosses.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalSmallLosses">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Small Loss %</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.smallLossPercentage" 
-                            ng-class="{'success': vm.stats.smallLossPercentage.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.smallLossPercentage">{{ value || 0 }}%</td>
                     </tr>
                     <tr>
                         <td><strong>Avg Loss</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.avgLosingScore" 
-                            ng-class="{'success': vm.stats.avgLosingScore.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.avgLosingScore">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Longest Losing Streak</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.biggestLosingStreak" 
-                            ng-class="{'success': vm.stats.biggestLosingStreak.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.biggestLosingStreak">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Doubles</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalDoubles" 
-                            ng-class="{'success': vm.stats.totalDoubles.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalDoubles">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Triples</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalTriples" 
-                            ng-class="{'success': vm.stats.totalTriples.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalTriples">{{ value || 0 }}</td>
                     </tr>
                     <tr>
                         <td><strong>Big Loser</strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalBigLoser" 
-                            ng-class="{'success': vm.stats.totalBigLoser.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
+                        <td ng-repeat="(key, value) in vm.stats.totalBigLoser">{{ value || 0 }}</td>
                     </tr>
                 </tbody>
             </table>

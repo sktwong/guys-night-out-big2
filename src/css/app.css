@@ -192,7 +192,6 @@ md-slider[md-discrete] ._md-track-ticks canvas {
     border: none;
 }
 
-#modal-stats #table-overall-stats tbody td:first-child,
 #modal-stats #table-individual-stats thead th:first-child {
     width: 30%;
 }
