@@ -21,7 +21,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showH
     vm.players = data.players;
     vm.scores = data.scores;
     vm.totals = angular.copy(data.totals);
-    vm.settings = big2AppService.getSettings();
+    vm.settings = data.settings;
     vm.gamesPlayed = data.scores.length;
     vm.showHistory = showHistory;
 
@@ -270,18 +270,16 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showH
     });
 
     function initBlankStats() {
-        var settings = big2AppService.getSettings();
         var stat = {};
-        for (var i = 0; i < settings.numberOfPlayers; i++) {
+        for (var i = 0; i < data.settings.numberOfPlayers; i++) {
             stat['player' + (i + 1)] = 0;
         }
         return stat;
     }
 
     function initBlankStatsArray() {
-        var settings = big2AppService.getSettings();
         var stat = {};
-        for (var i = 0; i < settings.numberOfPlayers; i++) {
+        for (var i = 0; i < data.settings.numberOfPlayers; i++) {
             stat['player' + (i + 1)] = [];
         }
         return stat;
