@@ -1,7 +1,8 @@
 <div id="modal-stats">
     <div class="modal-header">
         <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
-        <h4 class="modal-title"><span class="glyphicon glyphicon-stats"></span> Statistics</h4>
+        <h4 class="modal-title" ng-if="!vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Statistics</h4>
+        <h4 class="modal-title" ng-if="vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Game Data - July 22, 2016</h4>
     </div>
     <div class="modal-body">
         <div class="panel panel-default">
@@ -185,7 +186,36 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="panel panel-default" ng-if="vm.showHistory">
+            <div class="panel-heading">Scores</div>
+            <table class="table table-striped scores">
+                <thead>
+                    <tr class="players">
+                        <th>#</th>
+                        <th ng-repeat="(key, value) in vm.players">{{ value || 'Player ' + ($index + 1) }}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="score in vm.scores" class="scores" ng-click="editScore(score)">
+                        <td class="column-number" ng-repeat="(key, value) in score" ng-if="key == 'id'">{{ value || '-' }}</td>
+                        <td ng-repeat="(key, value) in score" 
+                            ng-class="{ 'success': (value < 0),
+                                        'danger': (value >= 20),
+                                        'column-player-4': (vm.settings.numberOfPlayers == 4), 
+                                        'column-player-5': (vm.settings.numberOfPlayers == 5) }"
+                            ng-if="key.indexOf('player') > -1">{{ value || '-' }}
+                        </td>
+                    </tr>
+                    <tr id="totals" class="row-divider info">
+                        <td><strong>Total</strong></td>
+                        <td ng-repeat="(key, value) in vm.totals"><strong>{{ value || '0' }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="close()">Close</button>
     </div>

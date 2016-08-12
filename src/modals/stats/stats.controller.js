@@ -19,7 +19,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showH
     }
 
     vm.players = data.players;
+    vm.scores = data.scores;
+    vm.totals = angular.copy(data.totals);
+    vm.settings = big2AppService.getSettings();
     vm.gamesPlayed = data.scores.length;
+    vm.showHistory = showHistory;
 
     vm.stats = {
         totals: data.totals || initBlankStats(),

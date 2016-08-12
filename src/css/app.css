@@ -184,7 +184,8 @@ md-slider[md-discrete] ._md-track-ticks canvas {
     bottom: -2px;
 }
 
-#modal-stats table {
+#modal-stats #table-overall-stats,
+#modal-stats #table-individual-stats {
     table-layout: fixed;
 }
 

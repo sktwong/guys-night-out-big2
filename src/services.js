@@ -18,7 +18,8 @@ function Big2AppServiceFn(localStorageService) {
         getData: getData,
         getSettings: getSettings,
         saveData: saveData,
-        getMockData: getMockData
+        getMockData: getMockData,
+        getHistory: getHistory
     };
 
     function createNewGame(settings) {
@@ -50,8 +51,11 @@ function Big2AppServiceFn(localStorageService) {
     }
 
     function getData() {
-        return getMockData();
         return localStorageService.get('guysNightOut-big2');
+    }
+
+    function getHistory() {
+        return getMockData();
     }
 
     function getSettings() {
