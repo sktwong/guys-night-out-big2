@@ -45,13 +45,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
     vm.gameStats = {
         mostWins: { number: 0, players: [] },
         mostLosses: { number: 0, players: [] },
-        biggestWin: { score: 0, winners: [], formattedWinners: '' }
+        biggestWin: { score: 0, winners: [], formattedWinners: '' },
+        biggestLosingStreak: { number: 0, players: [] }
     }
-
-    // Set labels of each stat
-    vm.stats.totals.label = 'Final Score';
-    vm.stats.totalWins.label = '# of Wins';
-    vm.stats.winningStreaks.label = 'Win streak';
 
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
@@ -220,26 +216,43 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance) {
         }
     });
 
+    // Find longest losing streak
+    angular.forEach(vm.stats.biggestLosingStreak, function(val, key) {
+        if (val > vm.gameStats.biggestLosingStreak.number) {
+            vm.gameStats.biggestLosingStreak.number = val;
+            vm.gameStats.biggestLosingStreak.players = [vm.players[key] || key];
+        }
+
+        else if (val == vm.gameStats.biggestLosingStreak.number) {
+            vm.gameStats.biggestLosingStreak.players.push(vm.players[key] || key);
+        }
+    });
+
     // Flag the biggest stat in each set
     angular.forEach(vm.stats, function(stat, statKey) {
         var biggestVal = 0;
-        var biggestKey = null;
+        var biggestKey = [];
 
-        if (statKey == 'totals') {
-            angular.forEach(stat, function(val, key) {
+        angular.forEach(stat, function(val, key) {
+            if (statKey == 'totals') {
                 if (val < biggestVal) {
                     biggestVal = val;
-                    biggestKey = key;
+                    biggestKey = [key];
+
+                } else if (val == biggestVal) {
+                    biggestKey.push(key);
                 }
-            });
-        } else {
-            angular.forEach(stat, function(val, key) {
+
+            } else {
                 if (Math.abs(val) > biggestVal) {
                     biggestVal = Math.abs(val);
-                    biggestKey = key;
+                    biggestKey = [key];
+
+                } else if (Math.abs(val) == biggestVal) {
+                    biggestKey.push(key);
                 }
-            });
-        }
+            }
+        });
         stat.biggest = biggestKey;
     });
 
