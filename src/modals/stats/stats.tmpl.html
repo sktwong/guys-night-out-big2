@@ -197,7 +197,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="score in vm.scores" class="scores" ng-click="editScore(score)">
+                    <tr ng-repeat="score in vm.scores" class="scores">
                         <td class="column-number" ng-repeat="(key, value) in score" ng-if="key == 'id'">{{ value || '-' }}</td>
                         <td ng-repeat="(key, value) in score" 
                             ng-class="{ 'success': (value < 0),
