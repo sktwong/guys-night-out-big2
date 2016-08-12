@@ -81,8 +81,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showH
                     // Reset losing streak
                     vm.stats.losingStreaks[key] = 0;
 
-                    // Increment playing streak
+                    // Increment playing streak, set biggest playing streak
                     vm.stats.playingStreaks[key]++;
+                    if (vm.stats.playingStreaks[key] > vm.stats.biggestPlayingStreak[key]) {
+                        vm.stats.biggestPlayingStreak[key] = vm.stats.playingStreaks[key];
+                    }
                 }
 
                 // Total losses / loss streaks
@@ -99,18 +102,18 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showH
                     // Reset winning streak
                     vm.stats.winningStreaks[key] = 0;
 
-                    // Increment playing streak
+                    // Increment playing streak, set biggest playing streak
                     vm.stats.playingStreaks[key]++;
+                    if (vm.stats.playingStreaks[key] > vm.stats.biggestPlayingStreak[key]) {
+                        vm.stats.biggestPlayingStreak[key] = vm.stats.playingStreaks[key];
+                    }
                 }
 
                 // Total games sat out
                 if (val == 0) {
                     vm.stats.totalSits[key]++;
 
-                    // Set biggest playing streak
-                    if (vm.stats.playingStreaks[key] > vm.stats.biggestPlayingStreak[key]) {
-                        vm.stats.biggestPlayingStreak[key] = vm.stats.playingStreaks[key];
-                    }
+                    // Reset playing streak
                     vm.stats.playingStreaks[key] = 0;
                 }
 

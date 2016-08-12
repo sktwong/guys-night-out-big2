@@ -57,14 +57,14 @@
                             ng-if="key.indexOf('player') > -1">{{ value || '0' }}
                         </td>
                     </tr>
-                    <tr>
+                    <tr ng-if="vm.settings.numberOfPlayers != 4">
                         <td><strong>Longest Playing Streak</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.biggestPlayingStreak" 
                             ng-class="{'success': vm.stats.biggestPlayingStreak.biggest.indexOf(key) > -1 && value != 0}"
                             ng-if="key.indexOf('player') > -1">{{ value || '0' }}
                         </td>
                     </tr>
-                    <tr>
+                    <tr ng-if="vm.settings.numberOfPlayers != 4">
                         <td><strong>Sat Out</strong></td>
                         <td ng-repeat="(key, value) in vm.stats.totalSits" 
                             ng-class="{'success': vm.stats.totalSits.biggest.indexOf(key) > -1 && value != 0}"
