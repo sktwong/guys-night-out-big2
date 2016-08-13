@@ -5,25 +5,19 @@
  * Game stats - modal controller
  *
  */
-big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'showHistory', modalStatsControllerFn]);
+big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'historyData', modalStatsControllerFn]);
 
-function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, showHistory) {
-
+function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, historyData) {
 
     var vm = this;
-    var data = null;
-    if (showHistory) {
-        data = big2AppService.getHistory();
-    } else {
-        data = big2AppService.getData();
-    }
+    var data = (historyData.showHistory) ? big2AppService.getHistory(historyData.date) : big2AppService.getData();
 
     vm.players = data.players;
     vm.scores = data.scores;
     vm.totals = angular.copy(data.totals);
     vm.settings = data.settings;
     vm.gamesPlayed = data.scores.length;
-    vm.showHistory = showHistory;
+    vm.showHistory = historyData.showHistory;
 
     vm.stats = {
         totals: data.totals || initBlankStats(),

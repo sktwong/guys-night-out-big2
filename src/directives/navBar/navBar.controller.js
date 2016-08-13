@@ -58,13 +58,20 @@ function navBarControllerFn($scope, $uibModal, big2AppService, $route) {
         });
     }
 
-    function historyModal() {
+    function historyModal(date) {
         var historyModal = $uibModal.open({
             size: 'md',
             templateUrl: 'modals/stats/stats.tmpl.html',
             controller: 'modalStatsController',
             controllerAs: 'vm',
-            resolve: { showHistory: true }
+            resolve: { 
+                historyData: function() {
+                    return {
+                        showHistory: true, 
+                        date: date
+                    };
+                }
+            }
         });
     }
 }
