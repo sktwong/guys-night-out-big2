@@ -187,6 +187,20 @@
                             ng-if="key.indexOf('player') > -1">{{ value || '0' }}
                         </td>
                     </tr>
+                    <tr>
+                        <td><strong>Second Place</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.secondPlace" 
+                            ng-class="{'success': vm.stats.secondPlace.biggest.indexOf(key) > -1 && value != 0}"
+                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Third Place</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.thirdPlace" 
+                            ng-class="{'success': vm.stats.thirdPlace.biggest.indexOf(key) > -1 && value != 0}"
+                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

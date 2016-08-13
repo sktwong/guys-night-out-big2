@@ -44,7 +44,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         biggestLosingStreak: initBlankStats(),
         playingStreaks: initBlankStats(),
         biggestPlayingStreak: initBlankStats(),
-        biggestWin: initBlankStats()
+        biggestWin: initBlankStats(),
+        secondPlace: initBlankStats(),
+        thirdPlace: initBlankStats()
     };
 
     vm.gameStats = {
@@ -58,6 +60,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
         var biggestLosingScore = 0;
+        var secondBestScore = 39; // Start second best score at biggest possible (39)
+        var thirdBestScore = 39; // Start third best score at biggest possible (39)
 
         angular.forEach(score, function(val, key) {
 
@@ -141,13 +145,29 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                 if (val == 1 || val == 2 || val == 3) {
                     vm.stats.totalSmallLosses[key]++;
                 }
+
+                // Set second / third place
+                if (val > 0 && val <= secondBestScore) {
+                    secondBestScore = val;
+
+                } else if (val > 0 && val > secondBestScore && val <= thirdBestScore) {
+                    thirdBestScore = val;
+                }
             }
         });
 
-        // Set the big losers (account for ties)
+        // Set the big losers, second / third place finishers
         angular.forEach(score, function(val, key) {
             if (val == biggestLosingScore) {
                 vm.stats.totalBigLoser[key]++;
+            }
+
+            if (val == secondBestScore) {
+                vm.stats.secondPlace[key]++;
+            }
+
+            if (val == thirdBestScore) {
+                vm.stats.thirdPlace[key]++;
             }
         });
     });
