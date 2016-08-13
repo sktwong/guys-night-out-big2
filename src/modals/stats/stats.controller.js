@@ -51,7 +51,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         mostWins: { number: 0, players: [] },
         mostLosses: { number: 0, players: [] },
         biggestWin: { score: 0, winners: [], formattedWinners: '' },
-        biggestLosingStreak: { number: 0, players: [] }
+        biggestLosingStreak: { number: 0, players: [] },
+        avgGameLength: { minutes: 0, seconds: 0 }
     }
 
     // Calculate majority of stats
@@ -265,6 +266,17 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             stat.biggest = biggestKey;
         }
     });
+
+    // Calculate average game length
+    // - game start time not available, so we take an average out of all the games minus 1
+    var startTime = new Date(data.scores[0].timestamp);
+    var endTime = new Date(data.scores[data.scores.length - 1].timestamp);
+    var totalTime = endTime.getTime() - startTime.getTime();
+    var avgGameLength = totalTime / (data.scores.length - 1);
+    vm.gameStats.avgGameLength = {
+        minutes: Math.floor(avgGameLength / 1000 / 60),
+        seconds: ((avgGameLength / 1000) % 60).toFixed(0)
+    };
 
     function initBlankStats() {
         var stat = {};

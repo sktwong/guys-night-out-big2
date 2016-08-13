@@ -54,7 +54,13 @@ function navBarControllerFn($scope, $uibModal, big2AppService, $route) {
             templateUrl: 'modals/stats/stats.tmpl.html',
             controller: 'modalStatsController',
             controllerAs: 'vm',
-            resolve: { showHistory: false }
+            resolve: { 
+                historyData: function() {
+                    return {
+                        showHistory: false
+                    };
+                }
+            }
         });
     }
 

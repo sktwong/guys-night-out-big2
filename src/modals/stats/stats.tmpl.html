@@ -29,6 +29,10 @@
                         <td class="text-right"><strong>Longest Losing Streak: </strong></td>
                         <td class="text-left" colspan="3">{{ vm.gameStats.biggestLosingStreak.number }} ({{ vm.gameStats.biggestLosingStreak.players.join(', ') }})</td>
                     </tr>
+                    <tr>
+                        <td class="text-right"><strong>Average Game Length: </strong></td>
+                        <td class="text-left" colspan="3">{{ vm.gameStats.avgGameLength.minutes }}:{{ vm.gameStats.avgGameLength.seconds }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
