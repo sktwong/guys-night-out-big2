@@ -154,6 +154,53 @@ input::-webkit-inner-spin-button {
     margin-top: 6px;
 }
 
+#modal-edit-score .header label:before {
+    content: "";
+    margin-left: -100%;
+}
+
+#modal-edit-score .header label:after {
+    content: "";
+    margin-right: -100%;
+}
+
+.three-diamonds-container {
+    width: 32px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.three-diamonds-container .three-diamonds-number {
+    position: relative;
+    top: -7px;
+}
+
+.three-diamonds-container .three-diamonds-symbol {
+    position: absolute;
+    top: 6px;
+    left: 9px;
+    font-size: 22px;
+    color: #ff6161;
+}
+
+.btn.disabled.three-diamonds-container {
+    cursor: pointer;
+}
+
+.btn-default.three-diamonds-container:focus {
+    outline: none;
+}
+
+.btn-default.three-diamonds-container.active {
+    color: #fff;
+    background-color: #ff6161;
+    border-color: #ff6161;
+}
+
+.btn-default.three-diamonds-container.active .three-diamonds-symbol {
+    color: #fff;
+}
+
 .glyphicon-usd {
     top: 2px;
 }
