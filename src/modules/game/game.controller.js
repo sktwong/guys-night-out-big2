@@ -69,14 +69,15 @@
 
     function editPlayers() {
         var editScoreModal = $uibModal.open({
-            size: 'sm',
+            size: 'md',
             templateUrl: 'modals/editPlayers/editPlayers.tmpl.html',
             controller: 'modalEditPlayersController',
             controllerAs: 'vm',
             resolve: {
                 data: function() {
                     return {
-                        players: $scope.players
+                        players: $scope.players,
+                        settings: $scope.settings
                     };
                 }
             }

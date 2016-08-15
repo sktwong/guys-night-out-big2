@@ -1,18 +1,46 @@
-<div class="modal-header">
-    <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
-    <h4 class="modal-title">Edit Players</h4>
-</div>
-<div class="modal-body">
-    <form class="form-horizontal">
-        <div class="form-group" ng-repeat="(key, value) in vm.players">
-            <label class="col-sm-4 control-label">{{ 'Player ' + ($index + 1) }}</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="vm.players[key]">
-            </div>
+<div id="modal-edit-players">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
+        <h4 class="modal-title">Edit Players</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">Player Names</div>
+            <form class="form-horizontal">
+                <div class="form-group" ng-repeat="(key, value) in vm.players">
+                    <label class="col-sm-4 control-label">{{ 'Player ' + ($index + 1) }}</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="vm.players[key]">
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-    <button type="submit" id="save-players" class="btn btn-primary" ng-click="save()">Save</button>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Table Positions</div>
+            <table class="table table-striped scores">
+                <thead>
+                    <tr>
+                        <th>Game #s</th>
+                        <th ng-repeat="(key, value) in vm.players">Position {{ $index + 1 }}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 - 3</td>
+                        <td ng-repeat="(key, value) in vm.players" ng-if="key.indexOf('player') > -1">
+                            <select class="form-control" ng-options="k as v for (k, v) in vm.players" ng-model="vm.theplayer[key]"></select>
+                        </td>
+                    </tr>
+                    <tr id="add-new-score" class="cursor-pointer">
+                        <td colspan="{{ vm.settings.numberOfPlayers + 1 }}" ng-click="addNewScore()"><span class="glyphicon glyphicon-plus"></span> <strong>Set new table positions</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" id="save-players" class="btn btn-primary" ng-click="save()">Save</button>
+    </div>
 </div>
