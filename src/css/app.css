@@ -244,3 +244,7 @@ md-slider[md-discrete] ._md-track-ticks canvas {
 #modal-stats #table-individual-stats thead th:first-child {
     width: 30%;
 }
+
+#modal-edit-players .form-horizontal {
+    margin-top: 15px;
+}
