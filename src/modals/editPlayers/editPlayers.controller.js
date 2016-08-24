@@ -13,8 +13,6 @@ function modalEditPlayersControllerFn($scope, big2AppService, $uibModalInstance,
     vm.players = angular.copy(data.players);
     vm.settings = angular.copy(data.settings);
 
-    console.log('data.players', data.players);
-
     $scope.save = function() {
         $uibModalInstance.close({ data: vm.players });
     }

@@ -18,6 +18,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     vm.settings = data.settings;
     vm.gamesPlayed = data.scores.length;
     vm.showHistory = historyData.showHistory;
+    vm.historyDate = formatHistoryDate(historyData.date);
 
     vm.stats = {
         totals: data.totals || initBlankStats(),
@@ -312,6 +313,14 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             stat['player' + (i + 1)] = [];
         }
         return stat;
+    }
+
+    // Formats historical date format yyyy.mm.dd
+    function formatHistoryDate(date) {
+        var year = date.substring(0, 4);
+        var month = date.substring(5, 7) - 1;
+        var day = date.substring(8, 10);
+        return new Date(year, month, day);
     }
 
     $scope.close = function() {
