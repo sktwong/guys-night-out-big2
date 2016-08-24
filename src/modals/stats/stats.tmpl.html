@@ -1,8 +1,8 @@
 <div id="modal-stats">
     <div class="modal-header">
         <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
-        <h4 class="modal-title" ng-if="!vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Statistics</h4>
-        <h4 class="modal-title" ng-if="vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Game Data - {{ vm.historyDate | date:'EEEE, MMMM d, yyyy' }}</h4>
+        <h4 class="modal-title" ng-if="!vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Statistics - Current Game</h4>
+        <h4 class="modal-title" ng-if="vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Historical Stats - {{ vm.historyDate | date:'EEEE, MMMM d, yyyy' }}</h4>
     </div>
     <div class="modal-body">
         <div class="panel panel-default">

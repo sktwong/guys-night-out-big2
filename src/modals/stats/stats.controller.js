@@ -18,7 +18,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     vm.settings = data.settings;
     vm.gamesPlayed = data.scores.length;
     vm.showHistory = historyData.showHistory;
-    vm.historyDate = formatHistoryDate(historyData.date);
+    vm.historyDate = historyData.date ? formatHistoryDate(historyData.date) : '';
 
     vm.stats = {
         totals: data.totals || initBlankStats(),
