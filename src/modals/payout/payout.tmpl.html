@@ -30,7 +30,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="(key, val) in vm.players">
-                    <td><strong>{{ vm.players[key] || 'Player ' + ($index + 1) }}</strong></td>
+                    <td><strong>{{ val }}</strong></td>
                     <td>{{ vm.totals[key] }}</td>
                     <td>{{ (vm.totals[key] * vm.pointValue) | currency:$:2 }}</td>
                 </tr>

@@ -22,15 +22,12 @@ function Big2AppServiceFn(localStorageService) {
     };
 
     function createNewGame(settings) {
-        // Temp setting of players
-        var players = {'player1': '', 'player2': '', 'player3': '', 'player4': ''};
-        if (settings.numberOfPlayers == '5') {
-            players.player5 = '';
+        var players = {}; 
+        for (var i = 1; i <= settings.numberOfPlayers; i++) {
+            players['player' + i] = 'Player ' + i;
         }
 
         var scores = [];
-        // scores.push(createNewScore(1, settings));
-
         var newGameData = {
             'settings': settings,
             'players': players,

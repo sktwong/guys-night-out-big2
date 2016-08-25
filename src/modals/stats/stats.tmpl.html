@@ -41,9 +41,9 @@
             <div class="panel-heading">Individual Performance</div>
             <table id="table-individual-stats" class="table table-striped">
                 <thead>
-                    <tr class="players row-divider" ng-click="editPlayers()">
+                    <tr class="players row-divider">
                         <th class="col-sm-3"></th>
-                        <th ng-repeat="(key, value) in vm.players">{{ value || 'Player ' + ($index + 1) }}</td>
+                        <th ng-repeat="(key, value) in vm.players">{{ value }}</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -225,7 +225,7 @@
                 <thead>
                     <tr class="players">
                         <th>#</th>
-                        <th ng-repeat="(key, value) in vm.players">{{ value || 'Player ' + ($index + 1) }}</td>
+                        <th ng-repeat="(key, value) in vm.players">{{ value }}</td>
                     </tr>
                 </thead>
                 <tbody>

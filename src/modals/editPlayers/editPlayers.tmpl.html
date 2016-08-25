@@ -8,9 +8,9 @@
             <div class="panel-heading">Player Names</div>
             <form class="form-horizontal">
                 <div class="form-group" ng-repeat="(key, value) in vm.players">
-                    <label class="col-sm-4 control-label">{{ 'Player ' + ($index + 1) }}</label>
+                    <label class="col-sm-4 control-label" ng-bind="::value"></label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" ng-model="vm.players[key]">
+                        <input type="text" class="form-control" ng-model="vm.players[key]" ng-click="onInputClick($event)">
                     </div>
                 </div>
             </form>
