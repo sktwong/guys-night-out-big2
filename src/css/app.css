@@ -201,6 +201,20 @@ input::-webkit-inner-spin-button {
     color: #fff;
 }
 
+#modal-stats .three-diamonds-container {
+    position: relative;
+    margin-top: -7px;
+    margin-bottom: -7px;
+}
+
+#modal-stats .btn.disabled.three-diamonds-container {
+    opacity: 1;
+}
+
+#modal-stats .three-diamonds-container .three-diamonds-symbol {
+    left: 10px;
+}
+
 .glyphicon-usd {
     top: 2px;
 }

@@ -47,7 +47,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         biggestPlayingStreak: initBlankStats(),
         biggestWin: initBlankStats(),
         secondPlace: initBlankStats(),
-        thirdPlace: initBlankStats()
+        thirdPlace: initBlankStats(),
+        totalThreeDiamonds: initBlankStats()
     };
 
     vm.gameStats = {
@@ -63,6 +64,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         var biggestLosingScore = 0;
         var secondBestScore = 39; // Start second best score at biggest possible (39)
         var thirdBestScore = 39; // Start third best score at biggest possible (39)
+        vm.stats.totalThreeDiamonds[score.starter]++;
 
         angular.forEach(score, function(val, key) {
 
