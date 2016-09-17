@@ -64,7 +64,6 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         var biggestLosingScore = 0;
         var secondBestScore = 39; // Start second best score at biggest possible (39)
         var thirdBestScore = 39; // Start third best score at biggest possible (39)
-        vm.stats.totalThreeDiamonds[score.starter]++;
 
         angular.forEach(score, function(val, key) {
 
@@ -296,9 +295,16 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     var endTime = new Date(data.scores[data.scores.length - 1].timestamp);
     var totalTime = endTime.getTime() - startTime.getTime();
     var avgGameLength = totalTime / (data.scores.length - 1);
+
+    var avgGameLengthMinutes = Math.floor(avgGameLength / 1000 / 60);
+    var avgGameLengthSeconds = ((avgGameLength / 1000) % 60).toFixed(0);
+    if (avgGameLengthSeconds >= 0 && avgGameLengthSeconds <= 9) {
+        avgGameLengthSeconds = '0' + avgGameLengthSeconds; // pad a leading zero
+    }
+
     vm.gameStats.avgGameLength = {
-        minutes: Math.floor(avgGameLength / 1000 / 60),
-        seconds: ((avgGameLength / 1000) % 60).toFixed(0)
+        minutes: avgGameLengthMinutes,
+        seconds: avgGameLengthSeconds
     };
 
     function initBlankStats() {
