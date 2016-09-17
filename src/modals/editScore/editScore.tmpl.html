@@ -9,15 +9,14 @@
 
             <div class="form-group header text-center">
                 <div class="col-sm-2"></div>
-                <label class="col-sm-6">Cards Left</label>
+                <label class="col-sm-7">Cards Left</label>
                 <label class="col-sm-1">Score</label>
                 <label class="col-sm-1">Winner</label>
-                <label class="col-sm-1"></label>
             </div>
 
             <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key.indexOf('player') > -1">
                 <label class="col-sm-2 control-label">{{ vm.players[key] }}</label>
-                <div class="col-sm-6 slider">
+                <div class="col-sm-7 slider">
                     <div layout>
                         <md-slider flex md-discrete class="md-primary" ng-model="vm.gameData[key]" ng-disabled="vm.winner == key" ng-change="calculateWinningScore()" step="1" min="0" max="13" aria-label="rating">
                         </md-slider>
@@ -27,12 +26,6 @@
                 <div class="col-sm-1">
                     <span class="col-sm-2 btn btn-default winner" ng-model="vm.winner" ng-disabled="vm.gameData[key] > 0" ng-click="vm.gameData[key] > 0 || calculateWinningScore()" uib-btn-radio="key">
                         <span class="glyphicon glyphicon-ok"></span>
-                    </span>
-                </div>
-                <div class="col-sm-1">
-                    <span class="col-sm-2 btn btn-default three-diamonds-container" ng-class="{'disabled': vm.starter && vm.starter != key}" ng-model="vm.starter" ng-click="vm.starter = key" uib-btn-radio="key">
-                        <div class="three-diamonds-number">3</div>
-                        <div class="three-diamonds-symbol">&diams;</div>
                     </span>
                 </div>
             </div>

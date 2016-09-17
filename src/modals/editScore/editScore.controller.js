@@ -13,7 +13,6 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
     vm.players = angular.copy(data.players);
     vm.gameData = convertScoreToCards(angular.copy(data.gameData));
     vm.winner = findWinner(vm.gameData);
-    vm.starter = vm.gameData.starter;
 
     // Converts doubled / tripled scores into cards left
     function convertScoreToCards(data) {
@@ -81,7 +80,6 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
 
     $scope.close = function() {
         vm.gameData.timestamp = (new Date()).toJSON();
-        vm.gameData.starter = vm.starter;
         $uibModalInstance.close({ 
             data: vm.gameData,
             winner: vm.winner

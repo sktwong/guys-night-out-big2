@@ -75,18 +75,6 @@
                             ng-if="key.indexOf('player') > -1">{{ value || '0' }}
                         </td>
                     </tr>
-                    <tr>
-                        <td><strong># of hands with
-                            <span class="btn btn-default three-diamonds-container disabled">
-                                <div class="three-diamonds-number">3</div>
-                                <div class="three-diamonds-symbol">&diams;</div>
-                            </span>
-                        </strong></td>
-                        <td ng-repeat="(key, value) in vm.stats.totalThreeDiamonds" 
-                            ng-class="{'success': vm.stats.totalSits.biggest.indexOf(key) > -1 && value != 0}"
-                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
-                        </td>
-                    </tr>
 
                     <tr class="row-divider">
                         <td><strong># of Wins</strong></td>
