@@ -5,9 +5,9 @@
  * Game stats - modal controller
  *
  */
-big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'historyData', modalStatsControllerFn]);
+big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'historyData', '$timeout', modalStatsControllerFn]);
 
-function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, historyData) {
+function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, historyData, $timeout) {
 
     var vm = this;
     var data = (historyData.showHistory) ? big2AppService.getHistory(historyData.date) : big2AppService.getData();
@@ -59,6 +59,14 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         avgGameLength: { minutes: 0, seconds: 0 }
     }
 
+    var chartStats = {
+        'player1': [],
+        'player2': [],
+        'player3': [],
+        'player4': [],
+        'player5': []
+    };
+
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
         var biggestLosingScore = 0;
@@ -68,6 +76,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         angular.forEach(score, function(val, key) {
 
             if (key.indexOf('player') > -1) {
+                chartStats[key].push(val);
+
                 // Total wins, win streaks
                 if (val < 0) {
                     vm.stats.totalWins[key]++;
@@ -173,6 +183,19 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             }
         });
     });
+
+    var newChartStats = {};
+    angular.forEach(chartStats, function(playerVal, playerKey) {
+        var total = 0;
+        newChartStats[playerKey] = [];
+        angular.forEach(playerVal, function(scoreVal, scoreKey) {
+            total = (scoreVal || 0) + total;
+            newChartStats[playerKey].push({ x: scoreKey, y: total });
+        });
+    });
+    $timeout(function() {
+        plotChart(newChartStats);
+    }, 0);
 
     // Calculate:
     // - win / loss percentages
@@ -334,4 +357,76 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     $scope.close = function() {
         $uibModalInstance.dismiss('cancel');
     };
+
+    function plotChart(data) {
+        var ctx = angular.element('#scoring-trends');
+        var myChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: vm.players.player1,
+                    fill: false,
+                    data: data.player1,
+                    borderColor: 'rgba(255, 99, 132, 1)', // red
+                    borderWidth: 3,
+                    pointRadius: 0
+                }, {
+                    label: vm.players.player2,
+                    fill: false,
+                    data: data.player2,
+                    borderColor: 'rgba(54, 162, 235, 1)', // blue
+                    borderWidth: 3,
+                    pointRadius: 0
+                }, {
+                    label: vm.players.player3,
+                    fill: false,
+                    data: data.player3,
+                    borderColor: 'rgba(255, 206, 86, 1)', // yellow
+                    borderWidth: 3,
+                    pointRadius: 0
+                }, {
+                    label: vm.players.player4,
+                    fill: false,
+                    data: data.player4,
+                    borderColor: 'rgba(75, 192, 192, 1)', // green
+                    borderWidth: 3,
+                    pointRadius: 0
+                }, {
+                    label: vm.players.player5,
+                    fill: false,
+                    data: data.player5,
+                    borderColor: 'rgba(153, 102, 255, 1)', // purple
+                    borderWidth: 3,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            reverse: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Score'
+                        },
+                        gridLines: {
+                            display:false
+                        }
+                    }],
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom',
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Game #'
+                        },
+                        gridLines: {
+                            display:false
+                        }
+                    }]
+                }
+            }
+        });
+    }
 }
