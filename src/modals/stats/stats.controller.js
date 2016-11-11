@@ -408,6 +408,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             }
         });
 
+        // Adjust legend position for smaller screens
+        var legendPosition = (window.innerWidth >= 768) ? 'right' : 'top';
+
         var ctx = document.getElementById("scoring-trends").getContext("2d");
         var myChart = new Chart(ctx, {
             type: 'line',
@@ -417,7 +420,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             },
             options: {
                 legend: {
-                    position: 'right'
+                    position: legendPosition
                 },
                 scales: {
                     yAxes: [{
