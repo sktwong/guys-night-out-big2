@@ -259,6 +259,13 @@ md-slider[md-discrete] ._md-track-ticks canvas {
     width: 30%;
 }
 
+#modal-stats h4 .dropdown {
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: -5px;
+}
+
+
 #modal-edit-players .form-horizontal {
     margin-top: 15px;
 }

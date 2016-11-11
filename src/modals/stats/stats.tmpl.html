@@ -2,7 +2,20 @@
     <div class="modal-header">
         <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
         <h4 class="modal-title" ng-if="!vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Statistics - Current Game</h4>
-        <h4 class="modal-title" ng-if="vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Historical Stats - {{ vm.historyDate | date:'EEEE, MMMM d, yyyy' }}</h4>
+        <h4 class="modal-title" ng-if="vm.showHistory"><span class="glyphicon glyphicon-stats"></span> Historical Stats - {{ vm.formattedHistoryDate | date:'EEEE, MMMM d, yyyy' }}
+            <div class="dropdown pull-right">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    Other Games
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-class="{disabled: vm.historyDate == '2016.10.28'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.10.28' || vm.historyModal('2016.10.28')">Oct 28, 2016</a></li>
+                    <li ng-class="{disabled: vm.historyDate == '2016.09.16'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.09.16' || vm.historyModal('2016.09.16')">Sept 16, 2016</a></li>
+                    <li ng-class="{disabled: vm.historyDate == '2016.08.12'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.08.12' || vm.historyModal('2016.08.12')">Aug 12, 2016</a></li>
+                    <li ng-class="{disabled: vm.historyDate == '2016.07.22'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.07.22' || vm.historyModal('2016.07.22')">Jul 22, 2016</a></li>
+                </ul>
+            </div>
+        </h4>
     </div>
     <div class="modal-body">
         <div class="panel panel-default">
