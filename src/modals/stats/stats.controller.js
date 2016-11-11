@@ -5,9 +5,9 @@
  * Game stats - modal controller
  *
  */
-big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'historyData', '$timeout', modalStatsControllerFn]);
+big2App.controller('modalStatsController', ['$scope', 'big2AppService', '$uibModalInstance', 'historyData', '$timeout', '$uibModal', modalStatsControllerFn]);
 
-function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, historyData, $timeout) {
+function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, historyData, $timeout, $uibModal) {
 
     var vm = this;
     var data = (historyData.showHistory) ? big2AppService.getHistory(historyData.date) : big2AppService.getData();
@@ -18,7 +18,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     vm.settings = data.settings;
     vm.gamesPlayed = data.scores.length;
     vm.showHistory = historyData.showHistory;
-    vm.historyDate = historyData.date ? formatHistoryDate(historyData.date) : '';
+    vm.historyDate = historyData.date;
+    vm.formattedHistoryDate = historyData.date ? formatHistoryDate(historyData.date) : '';
+    vm.historyModal = historyModal;
 
     vm.stats = {
         totals: data.totals || initBlankStats(),
@@ -59,12 +61,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         avgGameLength: { minutes: 0, seconds: 0 }
     }
 
-    var chartStats = {
-        'player1': [],
-        'player2': [],
-        'player3': [],
-        'player4': [],
-        'player5': []
+    vm.trends = {
+        scores: initBlankStatsArray(),
+        cumulativeScores: initBlankStatsArray()
     };
 
     // Calculate majority of stats
@@ -76,7 +75,6 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         angular.forEach(score, function(val, key) {
 
             if (key.indexOf('player') > -1) {
-                chartStats[key].push(val);
 
                 // Total wins, win streaks
                 if (val < 0) {
@@ -165,6 +163,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                 } else if (val > 0 && val > secondBestScore && val <= thirdBestScore) {
                     thirdBestScore = val;
                 }
+
+                // Add the game score only for graphing object
+                vm.trends.scores[key].push(val);
             }
         });
 
@@ -183,19 +184,6 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             }
         });
     });
-
-    var newChartStats = {};
-    angular.forEach(chartStats, function(playerVal, playerKey) {
-        var total = 0;
-        newChartStats[playerKey] = [];
-        angular.forEach(playerVal, function(scoreVal, scoreKey) {
-            total = (scoreVal || 0) + total;
-            newChartStats[playerKey].push({ x: scoreKey, y: total });
-        });
-    });
-    $timeout(function() {
-        plotChart(newChartStats);
-    }, 0);
 
     // Calculate:
     // - win / loss percentages
@@ -330,6 +318,18 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         seconds: avgGameLengthSeconds
     };
 
+    // Generate object for graphing
+    angular.forEach(vm.trends.scores, function(playerVal, playerKey) {
+        var total = 0;
+        angular.forEach(playerVal, function(scoreVal, scoreKey) {
+            total = (scoreVal || 0) + total;
+            vm.trends.cumulativeScores[playerKey].push({ x: scoreKey, y: total });
+        });
+    });
+    $timeout(function() {
+        plotChart(vm.trends.cumulativeScores);
+    }, 0);
+
     function initBlankStats() {
         var stat = {};
         for (var i = 0; i < data.settings.numberOfPlayers; i++) {
@@ -359,48 +359,66 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     };
 
     function plotChart(data) {
-        var ctx = angular.element('#scoring-trends');
+        var dataColours = [
+            'rgba(255, 99, 132, 1)', // red
+            'rgba(54, 162, 235, 1)', // blue
+            'rgba(255, 206, 86, 1)', // yellow
+            'rgba(75, 192, 192, 1)', // green
+            'rgba(153, 102, 255, 1)', // purple
+            'rgba(255, 159, 64, 1)' // orange
+        ];
+
+        var datasets = [];
+        var dataIndex = 0;
+        angular.forEach(data, function(val, key) {
+            var config = {
+                label: vm.players[key],
+                fill: false,
+                data: data[key],
+                borderColor: dataColours[dataIndex],
+                borderWidth: 3,
+                pointRadius: 0
+            }
+            datasets.push(config);
+            dataIndex++;
+        });
+
+        var originalLineDraw = Chart.controllers.line.prototype.draw;
+        Chart.helpers.extend(Chart.controllers.line.prototype, {
+            draw: function() {
+                originalLineDraw.apply(this, arguments);
+
+                var chart = this.chart;
+                var ctx = chart.chart.ctx;
+
+                var index = chart.config.data.lineAtIndex;
+                if (angular.isNumber(index)) {
+                    var xaxis = chart.scales['x-axis-0'];
+                    var yaxis = chart.scales['y-axis-0'];
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(xaxis.left, yaxis.getPixelForValue(index));
+                    ctx.strokeStyle = '#acacac';
+                    ctx.lineWidth = 1;
+                    ctx.lineTo(xaxis.right, yaxis.getPixelForValue(index));
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        });
+
+        var ctx = document.getElementById("scoring-trends").getContext("2d");
         var myChart = new Chart(ctx, {
-            type: 'scatter',
+            type: 'line',
             data: {
-                datasets: [{
-                    label: vm.players.player1,
-                    fill: false,
-                    data: data.player1,
-                    borderColor: 'rgba(255, 99, 132, 1)', // red
-                    borderWidth: 3,
-                    pointRadius: 0
-                }, {
-                    label: vm.players.player2,
-                    fill: false,
-                    data: data.player2,
-                    borderColor: 'rgba(54, 162, 235, 1)', // blue
-                    borderWidth: 3,
-                    pointRadius: 0
-                }, {
-                    label: vm.players.player3,
-                    fill: false,
-                    data: data.player3,
-                    borderColor: 'rgba(255, 206, 86, 1)', // yellow
-                    borderWidth: 3,
-                    pointRadius: 0
-                }, {
-                    label: vm.players.player4,
-                    fill: false,
-                    data: data.player4,
-                    borderColor: 'rgba(75, 192, 192, 1)', // green
-                    borderWidth: 3,
-                    pointRadius: 0
-                }, {
-                    label: vm.players.player5,
-                    fill: false,
-                    data: data.player5,
-                    borderColor: 'rgba(153, 102, 255, 1)', // purple
-                    borderWidth: 3,
-                    pointRadius: 0
-                }]
+                lineAtIndex: 0,
+                datasets: datasets
             },
             options: {
+                legend: {
+                    position: 'right'
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -411,7 +429,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                             labelString: 'Score'
                         },
                         gridLines: {
-                            display:false
+                            color: 'rgba(0, 0, 0, 0.5)',
+                            display: false
                         }
                     }],
                     xAxes: [{
@@ -422,9 +441,30 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                             labelString: 'Game #'
                         },
                         gridLines: {
+                            color: 'rgba(0, 0, 0, 0.5)',
                             display:false
                         }
                     }]
+                }
+            }
+        });
+    }
+
+    function historyModal(date) {
+        // Close existing window first
+        $uibModalInstance.dismiss('cancel');
+
+        var historyModal = $uibModal.open({
+            size: 'md',
+            templateUrl: 'modals/stats/stats.tmpl.html',
+            controller: 'modalStatsController',
+            controllerAs: 'vm',
+            resolve: { 
+                historyData: function() {
+                    return {
+                        showHistory: true, 
+                        date: date
+                    };
                 }
             }
         });
