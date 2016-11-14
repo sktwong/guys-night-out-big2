@@ -12,6 +12,11 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     var vm = this;
     var data = (historyData.showHistory) ? big2AppService.getHistory(historyData.date) : big2AppService.getData();
 
+    if (historyData.date == 'all') {
+        data = consolidateData(data);
+        console.log(data);
+    }
+
     vm.players = data.players;
     vm.scores = data.scores;
     vm.totals = angular.copy(data.totals);
@@ -451,6 +456,70 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                 }
             }
         });
+    }
+
+    function consolidateData(data) {
+        var players = consolidatePlayers(data);
+        var settings = consolidateSettings(players);
+        var scores = consolidateScores(data, players);
+        return {
+            players: players,
+            settings: settings,
+            scores: scores
+        };
+    }
+
+    function consolidatePlayers(data) {
+        var playerNames = [];
+        angular.forEach(data, function(gameVal, gameKey) {
+            angular.forEach(gameVal.players, function(playerVal, playerKey) {
+                if (playerNames.indexOf(playerVal) == -1) {
+                    playerNames.push(playerVal);
+                }
+            });
+        });
+        playerNames.sort();
+
+        var players = {};
+        for (var i = 0; i < playerNames.length; i++) {
+            players['player' + (i + 1)] = playerNames[i];
+        }
+
+        return players;
+    }
+
+    function consolidateSettings(players) {
+        return {
+            numberOfPlayers: Object.keys(players).length
+        }
+    }
+
+    function consolidateScores(data, players) {
+        var scores = [];
+
+        angular.forEach(players, function(playerVal, playerKey) {
+            var index = 0;
+
+            angular.forEach(data, function(gameVal, gameKey) {
+                var target = '';
+                angular.forEach(gameVal.players, function(gamePlayerVal, gamePlayerKey) {
+                    if (playerVal === gamePlayerVal) {
+                        target = gamePlayerKey;
+                    }
+                });
+
+                angular.forEach(gameVal.scores, function(gameScoreVal, gameScoreKey) {
+                    var tempScore = {
+                        id: gameScoreVal.id,
+                        consolidatedId: index + 1,
+                        [playerKey]: gameScoreVal[target] || 0
+                    }
+                    scores[index] = angular.extend(tempScore, scores[index]);
+                    index++;
+                });
+            });
+        });
+        return scores;
     }
 
     function historyModal(date) {
