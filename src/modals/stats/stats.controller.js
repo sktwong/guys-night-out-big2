@@ -14,7 +14,6 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
 
     if (historyData.date == 'all') {
         data = consolidateData(data);
-        console.log(data);
     }
 
     vm.players = data.players;
@@ -320,7 +319,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
 
     vm.gameStats.avgGameLength = {
         minutes: avgGameLengthMinutes,
-        seconds: avgGameLengthSeconds
+        seconds: avgGameLengthSeconds,
+        available: !isNaN(avgGameLengthMinutes) && !isNaN(avgGameLengthSeconds)
     };
 
     // Generate object for graphing
@@ -353,10 +353,15 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
 
     // Formats historical date format yyyy.mm.dd
     function formatHistoryDate(date) {
-        var year = date.substring(0, 4);
-        var month = date.substring(5, 7) - 1;
-        var day = date.substring(8, 10);
-        return new Date(year, month, day);
+        if (date == 'all') {
+            return 'All Stats';
+            
+        } else { 
+            var year = date.substring(0, 4);
+            var month = date.substring(5, 7) - 1;
+            var day = date.substring(8, 10);
+            return new Date(year, month, day);
+        }
     }
 
     $scope.close = function() {
@@ -461,11 +466,13 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
     function consolidateData(data) {
         var players = consolidatePlayers(data);
         var settings = consolidateSettings(players);
-        var scores = consolidateScores(data, players);
+        var scoresAndTotals = consolidateScoresAndTotals(data, players);
+
         return {
             players: players,
             settings: settings,
-            scores: scores
+            scores: scoresAndTotals.scores,
+            totals: scoresAndTotals.totals
         };
     }
 
@@ -494,8 +501,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         }
     }
 
-    function consolidateScores(data, players) {
+    function consolidateScoresAndTotals(data, players) {
         var scores = [];
+        var totals = {};
 
         angular.forEach(players, function(playerVal, playerKey) {
             var index = 0;
@@ -515,11 +523,17 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                         [playerKey]: gameScoreVal[target] || 0
                     }
                     scores[index] = angular.extend(tempScore, scores[index]);
+                    totals[playerKey] = (totals[playerKey] || 0) + (gameScoreVal[target] || 0);
+
                     index++;
                 });
             });
         });
-        return scores;
+
+        return {
+            scores: scores,
+            totals: totals
+        };
     }
 
     function historyModal(date) {

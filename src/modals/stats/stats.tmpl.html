@@ -13,6 +13,7 @@
                     <li ng-class="{disabled: vm.historyDate == '2016.09.16'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.09.16' || vm.historyModal('2016.09.16')">Sept 16, 2016</a></li>
                     <li ng-class="{disabled: vm.historyDate == '2016.08.12'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.08.12' || vm.historyModal('2016.08.12')">Aug 12, 2016</a></li>
                     <li ng-class="{disabled: vm.historyDate == '2016.07.22'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.07.22' || vm.historyModal('2016.07.22')">Jul 22, 2016</a></li>
+                    <li ng-class="{disabled: vm.historyDate == 'all'}"><a class="cursor-pointer" ng-click="vm.historyDate == 'all' || vm.historyModal('all')">All Stats</a></li>
                 </ul>
             </div>
         </h4>
@@ -44,7 +45,8 @@
                     </tr>
                     <tr>
                         <td class="text-right"><strong>Average Game Length: </strong></td>
-                        <td class="text-left" colspan="3">{{ vm.gameStats.avgGameLength.minutes }}:{{ vm.gameStats.avgGameLength.seconds }}</td>
+                        <td ng-show="vm.gameStats.avgGameLength.available" class="text-left" colspan="3">{{ vm.gameStats.avgGameLength.minutes }}:{{ vm.gameStats.avgGameLength.seconds }}</td>
+                        <td ng-show="!vm.gameStats.avgGameLength.available" class="text-left" colspan="3">N/A</td>
                     </tr>
                 </tbody>
             </table>
