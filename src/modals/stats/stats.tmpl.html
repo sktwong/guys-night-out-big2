@@ -228,8 +228,15 @@
         </div>
 
         <div class="panel panel-default" ng-if="vm.showHistory">
-            <div class="panel-heading">Scores</div>
-            <table class="table table-striped scores">
+            <div class="panel-heading" ng-show="!vm.showScores" ng-click="vm.showScores = true">
+                Scores
+                <span class="glyphicon glyphicon-menu-down pull-right"></span>
+            </div>
+            <div class="panel-heading" ng-show="vm.showScores" ng-click="vm.showScores = false">
+                Scores
+                <span class="glyphicon glyphicon-menu-up pull-right"></span>
+            </div>
+            <table class="table table-striped scores" ng-if="vm.showScores">
                 <thead>
                     <tr class="players">
                         <th>#</th>
