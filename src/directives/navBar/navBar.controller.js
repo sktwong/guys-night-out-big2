@@ -10,11 +10,13 @@ big2App.controller('navBarController', ['$scope', '$uibModal', 'big2AppService',
 function navBarControllerFn($scope, $uibModal, big2AppService, $route) {
 
     var vm = this;
-    vm.newGameModal = newGameModal;
     vm.dataModal = dataModal;
+    vm.formatDate = big2AppService.formatDate;
+    vm.historyDates = big2AppService.getHistoryDates();
+    vm.historyModal = historyModal;
+    vm.newGameModal = newGameModal;
     vm.payoutModal = payoutModal;
     vm.statsModal = statsModal;
-    vm.historyModal = historyModal;
 
     function newGameModal() {
         var newGameModal = $uibModal.open({

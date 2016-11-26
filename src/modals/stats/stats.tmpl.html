@@ -9,12 +9,10 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li ng-class="{disabled: vm.historyDate == '2016.11.25'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.11.25' || vm.historyModal('2016.11.25')">Nov 25, 2016</a></li>
-                    <li ng-class="{disabled: vm.historyDate == '2016.10.28'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.10.28' || vm.historyModal('2016.10.28')">Oct 28, 2016</a></li>
-                    <li ng-class="{disabled: vm.historyDate == '2016.09.16'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.09.16' || vm.historyModal('2016.09.16')">Sept 16, 2016</a></li>
-                    <li ng-class="{disabled: vm.historyDate == '2016.08.12'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.08.12' || vm.historyModal('2016.08.12')">Aug 12, 2016</a></li>
-                    <li ng-class="{disabled: vm.historyDate == '2016.07.22'}"><a class="cursor-pointer" ng-click="vm.historyDate == '2016.07.22' || vm.historyModal('2016.07.22')">Jul 22, 2016</a></li>
-                    <li ng-class="{disabled: vm.historyDate == 'all'}"><a class="cursor-pointer" ng-click="vm.historyDate == 'all' || vm.historyModal('all')">All Stats</a></li>
+                    <li ng-repeat="date in vm.historyDates | orderBy:'-' " ng-class="{disabled: vm.statDate == date}">
+                        <a class="cursor-pointer" ng-click="vm.statDate == date || vm.historyModal(date)">{{ vm.formatDate(date) | date:'MMM d, yyyy' }}</a>
+                    </li>
+                    <li ng-class="{disabled: vm.statDate == 'all'}"><a class="cursor-pointer" ng-click="vm.statDate == 'all' || vm.historyModal('all')">All Stats</a></li>
                 </ul>
             </div>
         </h4>

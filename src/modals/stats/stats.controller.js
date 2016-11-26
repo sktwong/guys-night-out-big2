@@ -16,15 +16,18 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         data = consolidateData(data);
     }
 
+    vm.gamesPlayed = data.scores.length;
     vm.players = data.players;
     vm.scores = data.scores;
-    vm.totals = angular.copy(data.totals);
     vm.settings = data.settings;
-    vm.gamesPlayed = data.scores.length;
     vm.showHistory = historyData.showHistory;
-    vm.historyDate = historyData.date;
-    vm.formattedHistoryDate = historyData.date ? formatHistoryDate(historyData.date) : '';
+    vm.totals = angular.copy(data.totals);
+    
+    vm.formatDate = big2AppService.formatDate;
+    vm.formattedHistoryDate = historyData.date ? big2AppService.formatDate(historyData.date) : '';
+    vm.historyDates = big2AppService.getHistoryDates();
     vm.historyModal = historyModal;
+    vm.statDate = historyData.date;
 
     vm.stats = {
         totals: data.totals || initBlankStats(),
@@ -349,19 +352,6 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             stat['player' + (i + 1)] = [];
         }
         return stat;
-    }
-
-    // Formats historical date format yyyy.mm.dd
-    function formatHistoryDate(date) {
-        if (date == 'all') {
-            return 'All Stats';
-            
-        } else { 
-            var year = date.substring(0, 4);
-            var month = date.substring(5, 7) - 1;
-            var day = date.substring(8, 10);
-            return new Date(year, month, day);
-        }
     }
 
     $scope.close = function() {
