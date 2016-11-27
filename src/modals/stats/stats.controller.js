@@ -57,7 +57,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         biggestWin: initBlankStats(),
         secondPlace: initBlankStats(),
         thirdPlace: initBlankStats(),
-        totalThreeDiamonds: initBlankStats()
+        totalThreeDiamonds: initBlankStats(),
+        totalOppositionDoublesTriples: initBlankStats()
     };
 
     vm.gameStats = {
@@ -75,6 +76,8 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
 
     // Calculate majority of stats
     angular.forEach(data.scores, function(score) {
+        var winner = null;
+        var totalOppositionDoublesTriples = 0;
         var biggestLosingScore = 0;
         var secondBestScore = 39; // Start second best score at biggest possible (39)
         var thirdBestScore = 39; // Start third best score at biggest possible (39)
@@ -85,6 +88,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
 
                 // Total wins, win streaks
                 if (val < 0) {
+                    winner = key;
                     vm.stats.totalWins[key]++;
                     vm.stats.winningScores[key].push({ id: score.id, score: val });
 
@@ -141,11 +145,13 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                 // Total Doubles
                 if (val == 20 || val == 22 || val == 24) {
                     vm.stats.totalDoubles[key]++;
+                    totalOppositionDoublesTriples++;
                 }
 
                 // Total Triples
                 if (val == 39) {
                     vm.stats.totalTriples[key]++;
+                    totalOppositionDoublesTriples++;
                 }
 
                 // Set the biggest losing score
@@ -190,6 +196,9 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
                 vm.stats.thirdPlace[key]++;
             }
         });
+
+        // Assign the total opposition doubles / triples stat
+        vm.stats.totalOppositionDoublesTriples[winner] += totalOppositionDoublesTriples;
     });
 
     // Calculate:
@@ -383,6 +392,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
             dataIndex++;
         });
 
+        // Draws horizontal line at a given y-axis index
         var originalLineDraw = Chart.controllers.line.prototype.draw;
         Chart.helpers.extend(Chart.controllers.line.prototype, {
             draw: function() {
@@ -415,7 +425,7 @@ function modalStatsControllerFn($scope, big2AppService, $uibModalInstance, histo
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                lineAtIndex: 0,
+                lineAtIndex: 0, // Draw horizontal line at y-axis
                 datasets: datasets
             },
             options: {

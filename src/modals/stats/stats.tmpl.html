@@ -144,6 +144,13 @@
                             ng-if="key.indexOf('player') > -1">{{ value || '0' }}
                         </td>
                     </tr>
+                    <tr>
+                        <td><strong>Opposition Doubles / Triples</strong></td>
+                        <td ng-repeat="(key, value) in vm.stats.totalOppositionDoublesTriples" 
+                            ng-class="{'success': vm.stats.totalOppositionDoublesTriples.biggest.indexOf(key) > -1 && value != 0}"
+                            ng-if="key.indexOf('player') > -1">{{ value || '0' }}
+                        </td>
+                    </tr>
 
                     <tr class="row-divider">
                         <td><strong># of Losses</strong></td>
