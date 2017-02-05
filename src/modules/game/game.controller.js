@@ -55,7 +55,7 @@
 
     function createNewGame() {
         var newGameModal = $uibModal.open({
-            size: 'sm',
+            size: 'md',
             templateUrl: 'modals/newGame/newGame.tmpl.html',
             controller: 'modalNewGameController',
             controllerAs: 'vm'
@@ -127,6 +127,16 @@
                 // Scroll to bottom of page
                 $location.hash('totals');
                 $anchorScroll();
+
+                // Display seat change reminder modal
+                if (gameId % $scope.settings.seatChange != 0) { 
+                    var seatChangeReminderModal = $uibModal.open({
+                        size: 'sm',
+                        templateUrl: 'modals/seatChange/seatChange.tmpl.html',
+                        controller: 'modalSeatChangeController',
+                        controllerAs: 'vm'
+                    });
+                }
             }, 100);
         });
     }

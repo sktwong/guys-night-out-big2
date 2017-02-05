@@ -20,7 +20,7 @@ function navBarControllerFn($scope, $uibModal, big2AppService, $route) {
 
     function newGameModal() {
         var newGameModal = $uibModal.open({
-            size: 'sm',
+            size: 'md',
             templateUrl: 'modals/newGame/newGame.tmpl.html',
             controller: 'modalNewGameController',
             controllerAs: 'vm'

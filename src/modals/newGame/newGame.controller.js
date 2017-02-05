@@ -12,11 +12,13 @@ function modalNewGameControllerFn($scope, big2AppService, $uibModalInstance) {
     var vm = this;
     vm.numberOfPlayers = '5';
     vm.pointValue = '0.10';
+    vm.seatChange = '15';
 
     $scope.createGame = function() {
         var newGameSettings = {
             'numberOfPlayers': vm.numberOfPlayers,
-            'pointValue': vm.pointValue
+            'pointValue': vm.pointValue,
+            'seatChange': vm.seatChange
         };
 
         $uibModalInstance.close(newGameSettings);

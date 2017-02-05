@@ -6,10 +6,10 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="form-group">
-                <div class="col-xs-5 col-md-5 text-right">
+                <div class="col-md-4 text-right">
                     <label for="new-game-players"># of Players:</label>
                 </div>
-                <div class="col-xs-5 col-md-7">
+                <div class="col-md-8">
                     <div class="btn-group">
                         <label class="btn btn-default number-of-players" ng-model="vm.numberOfPlayers" uib-btn-radio="'4'">4</label>
                         <label class="btn btn-default number-of-players" ng-model="vm.numberOfPlayers" uib-btn-radio="'5'">5</label>
@@ -17,15 +17,23 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-xs-5 col-md-5 text-right">
+                <div class="col-md-4 text-right">
                     <label for="new-game-players">Point Value:</label>
                 </div>
-                <div class="col-xs-7 col-md-7">
+                <div class="col-md-8">
                     <div class="btn-group">
                         <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.05'">5&cent;</label>
                         <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.10'">10&cent;</label>
                         <label class="btn btn-default point-value" ng-model="vm.pointValue" uib-btn-radio="'0.25'">25&cent;</label>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4 text-right">
+                    <label for="new-game-players">Seat Change After Game #:</label>
+                </div>
+                <div class="col-md-2 seat-change-input">
+                    <input type="text" class="form-control no-padding text-center" ng-model="vm.seatChange">
                 </div>
             </div>
         </form>

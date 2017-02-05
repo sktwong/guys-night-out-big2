@@ -6,6 +6,10 @@ body {
     padding-top: 50px;
 }
 
+.no-padding {
+    padding: 0 !important;
+}
+
 .cursor-pointer {
     cursor: pointer;
 }
@@ -43,6 +47,10 @@ td {
 
 .column-number {
     width: 10%;
+}
+
+.seat-change-input {
+    width: 10.5%;
 }
 
 .column-player-4 {
