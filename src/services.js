@@ -19,6 +19,7 @@ function Big2AppServiceFn(localStorageService) {
         getData: getData,
         getHistory: getHistory,
         getHistoryDates: getHistoryDates,
+        getPlayerNames: getPlayerNames,
         getSettings: getSettings,
         saveData: saveData
     };
@@ -86,6 +87,17 @@ function Big2AppServiceFn(localStorageService) {
 
     function saveData(data) {
         localStorageService.set('guysNightOut-big2', data);
+    }
+
+    function getPlayerNames() {
+        return [
+            'James',
+            'Kelvin',
+            'Marcus',
+            'Rob',
+            'Steve',
+            'Vince'
+        ];
     }
 
     function getHistoricalData(date) {

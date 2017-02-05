@@ -6,12 +6,15 @@
     <div class="modal-body">
         <div class="panel panel-default">
             <div class="panel-heading">Player Names</div>
-            <form class="form-horizontal">
-                <div class="form-group" ng-repeat="(key, value) in vm.players">
+            <form class="form-horizontal" name="form">
+                <div class="form-group" ng-repeat="(key, value) in vm.players" ng-class="{'has-error': duplicatePlayer(vm.players[key])}">
                     <label class="col-sm-4 control-label" ng-bind="::value"></label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" ng-model="vm.players[key]" ng-click="onInputClick($event)">
+                        <select name="player" class="form-control" ng-model="vm.players[key]" ng-options="player for player in vm.playerNames"></select>
                     </div>
+                </div>
+                <div ng-repeat="(key, val) in vm.hasError">
+                    <p class="has-error" ng-show="val">*Duplicate player name: {{key}}</p>
                 </div>
             </form>
         </div>
@@ -43,6 +46,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-        <button type="submit" id="save-players" class="btn btn-primary" ng-click="save()">Save</button>
+        <button type="submit" id="save-players" class="btn btn-primary" ng-click="save()" ng-disabled="checkIfError()">Save</button>
     </div>
 </div>
