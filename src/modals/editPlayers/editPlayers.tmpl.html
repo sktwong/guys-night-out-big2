@@ -14,7 +14,10 @@
                     </div>
                 </div>
                 <div ng-repeat="(key, val) in vm.hasError">
-                    <p class="has-error" ng-show="val">*Duplicate player name: {{key}}</p>
+                    <div class="alert alert-danger" ng-show="val">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        <span>Duplicate player name: {{key}}</span>
+                    </div>
                 </div>
             </form>
         </div>

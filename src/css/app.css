@@ -286,8 +286,3 @@ md-slider[md-discrete] ._md-track-ticks canvas {
 #modal-edit-players .form-horizontal {
     margin-top: 15px;
 }
-
-#modal-edit-players p.has-error {
-    color: #a94442;
-    padding: 0 15px;
-}

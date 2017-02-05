@@ -94,7 +94,7 @@
     }
 
     // Edits score for a game
-    function editScore(gameData) {
+    function editScore(gameData, isNew) {
         var editScoreModal = $uibModal.open({
             size: 'md',
             templateUrl: 'modals/editScore/editScore.tmpl.html',
@@ -129,7 +129,7 @@
                 $anchorScroll();
 
                 // Display seat change reminder modal
-                if (gameId % $scope.settings.seatChange != 0) { 
+                if (isNew && (gameId % $scope.settings.seatChange == 0)) { 
                     var seatChangeReminderModal = $uibModal.open({
                         size: 'sm',
                         templateUrl: 'modals/seatChange/seatChange.tmpl.html',
@@ -151,7 +151,7 @@
         });
 
         var newScore = big2AppService.createNewScore(newGameId + 1, big2AppService.getSettings());
-        editScore(newScore);
+        editScore(newScore, true);
     }
 
     // Calculates all game scores, doubling / tripling where necessary
