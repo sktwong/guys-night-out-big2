@@ -6,7 +6,6 @@
     </div>
     <div class="modal-body">
         <form class="form-horizontal">
-
             <div class="form-group header text-center">
                 <div class="col-sm-2"></div>
                 <label class="col-sm-7">Cards Left</label>
@@ -18,18 +17,57 @@
                 <label class="col-sm-2 control-label">{{ vm.players[key] }}</label>
                 <div class="col-sm-7 slider">
                     <div layout>
-                        <md-slider flex md-discrete class="md-primary" ng-model="vm.gameData[key]" ng-disabled="vm.winner == key" ng-change="calculateWinningScore()" step="1" min="0" max="13" aria-label="rating">
+                        <md-slider flex md-discrete step="1" min="0" max="13" aria-label="rating"
+                            class="md-primary" 
+                            ng-model="vm.gameData[key]" 
+                            ng-disabled="vm.winner == key" 
+                            ng-change="calculateWinningScore()">
                         </md-slider>
                     </div>
                 </div>
                 <div class="col-sm-1 score text-center">{{ convertCardsToScore(vm.gameData[key]) }}</div>
                 <div class="col-sm-1">
-                    <span class="col-sm-2 btn btn-default winner" ng-model="vm.winner" ng-disabled="vm.gameData[key] > 0" ng-click="vm.gameData[key] > 0 || calculateWinningScore()" uib-btn-radio="key">
+                    <span class="col-sm-2 btn btn-default winner" 
+                            ng-model="vm.winner" 
+                            ng-disabled="vm.gameData[key] > 0" 
+                            ng-click="vm.gameData[key] > 0 || calculateWinningScore()" 
+                            uib-btn-radio="key">
                         <span class="glyphicon glyphicon-ok"></span>
                     </span>
                 </div>
             </div>
-         </form>
+        </form>
+
+        <div ng-if="vm.settings.numberOfPlayers > 4">
+            <hr>
+            <div class="alert alert-info">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                <span><strong>Sits out next round:</strong> {{ vm.players[vm.biggestLoser] }}</span>
+            </div>
+
+            <hr>
+            <p><strong>Tiebreaker reference</strong></p>
+            <table class="table scores">
+                <thead>
+                    <tr class="players">
+                        <th>#</th>
+                        <th ng-repeat="(key, value) in vm.players"
+                            ng-class="{'alert-info': (vm.tiedPlayers.length > 1 && vm.tiedPlayers.indexOf(key) > -1)}">{{ value }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="scores" ng-repeat="score in vm.recentScores | limitTo: (-5) | orderBy: '' : true">
+                        <td class="column-number" ng-if="key == 'id'" ng-repeat="(key, value) in score">{{ value || '-' }}</td>
+                        <td ng-repeat="(key, value) in score" 
+                            ng-class="{ 'column-player-4': (vm.settings.numberOfPlayers == 4), 
+                                        'column-player-5': (vm.settings.numberOfPlayers == 5),
+                                        'alert-info': (score.biggestLoserPlayers.indexOf(key) > -1) }"
+                            ng-if="key.indexOf('player') > -1">{{ value || '-' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>

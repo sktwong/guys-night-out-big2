@@ -104,7 +104,8 @@
                 data: function() {
                     return {
                         players: $scope.players,
-                        gameData: gameData
+                        gameData: gameData,
+                        scores: $scope.scores
                     };
                 }
             }
