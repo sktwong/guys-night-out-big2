@@ -10,7 +10,8 @@ big2App.controller('modalDataController', ['$scope', 'big2AppService', '$uibModa
 function modalDataControllerFn($scope, big2AppService, $uibModalInstance) {
 
     var vm = this;
-    vm.data = JSON.stringify(big2AppService.getData(), null, 4); // Formatted
+    vm.data = JSON.stringify(big2AppService.getData()); // Formatted
+    // vm.data = JSON.stringify(big2AppService.getData(), null, 4); // Formatted
     vm.email = big2AppService.getEmailInfo();
 
     $scope.textSelect = function($event) {
