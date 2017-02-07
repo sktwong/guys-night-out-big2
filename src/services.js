@@ -8,15 +8,16 @@
  * - clearing data
  *
  */
-big2App.factory('big2AppService', ['localStorageService', Big2AppServiceFn]);
+big2App.factory('big2AppService', ['localStorageService', '$filter', Big2AppServiceFn]);
 
-function Big2AppServiceFn(localStorageService) {
+function Big2AppServiceFn(localStorageService, $filter) {
 
     return {
         createNewGame: createNewGame,
         createNewScore: createNewScore,
         formatDate: formatDate,
         getData: getData,
+        getEmailInfo: getEmailInfo,
         getHistory: getHistory,
         getHistoryDates: getHistoryDates,
         getPlayerNames: getPlayerNames,
@@ -98,6 +99,17 @@ function Big2AppServiceFn(localStorageService) {
             'Steve',
             'Vince'
         ];
+    }
+
+    function getEmailInfo() {
+        var date = new Date(); 
+        date.setDate(date.getDate() - 1);
+        date = $filter('date')(date, 'MMM d, yyyy');
+
+        return {
+            address: 'sktwong@gmail.com',
+            subject: 'Big 2 Game Stats - ' + date
+        };
     }
 
     function getHistoricalData(date) {

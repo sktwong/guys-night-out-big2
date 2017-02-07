@@ -4,9 +4,12 @@
         <h4 class="modal-title"><span class="glyphicon glyphicon-hdd"></span> Raw JSON Data</a></span></h4>
     </div>
     <div class="modal-body">
-        <pre>{{ vm.data }}</pre>
+        <textarea ng-click="textSelect($event)" readonly="true">{{vm.data}}</textarea>
     </div>
     <div class="modal-footer">
+        <a href="mailto:{{vm.email.address}}?subject={{vm.email.subject}}" class="btn btn-info" role="button">
+            <span class="glyphicon glyphicon-envelope"></span> Email Stats
+        </a>
         <button type="button" class="btn btn-default" ng-click="close()">Close</button>
     </div>
 </div>
