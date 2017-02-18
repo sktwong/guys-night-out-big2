@@ -122,7 +122,7 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
         // Add reference point in score object for highlighting in template
         gameToCheck.biggestLoserPlayers = tempBiggestLoserArray;
 
-        // Remember who the tied players were of the current game
+        // Set the tied players of the current game to highlight in score table
         if (isCurrentGame) { 
             vm.tiedPlayers = tempBiggestLoserArray;
         }
