@@ -11,6 +11,7 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
 
     var vm = this;
     vm.biggestLoser = null;
+    vm.secondBiggestLoser = null;
     vm.gameData = convertScoreToCards(angular.copy(data.gameData));
     vm.players = angular.copy(data.players);
     vm.recentScores = angular.copy(data.scores);
@@ -60,11 +61,15 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
     // Sets the winning score, erases any previously set winner
     $scope.calculateWinningScore = function() {
         var playersArray = [];
+        vm.tiedPlayers = [];
         vm.recentScores = angular.copy(data.scores); // Reset score data to erase any previous biggestLoserScore property
 
         // Only set the winner if it has already been choosen in the modal
         if (vm.winner) {
             var total = 0;
+            var biggestScore = 0;
+            var numberOfPlayersWithBiggestScore = 1;
+
             angular.forEach(vm.gameData, function(val, key) {
                 if (key.indexOf('player') > -1) {
                     if (val == 10) { val = 20; }
@@ -75,19 +80,39 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
                     // Only add a value if positive, ignore negative values
                     if (val > 0) {
                         total -= parseInt(val || 0);
+
+                        // Create player array for determining biggest loser
+                        playersArray.push(key);
+
+                        // Keep track of biggest score to use with tied highlighting condition
+                        if (val > biggestScore) {
+                            biggestScore = val;
+                            numberOfPlayersWithBiggestScore = 1
+
+                        } else if (val == biggestScore) {
+                            numberOfPlayersWithBiggestScore++;
+                        }
                     }
 
                     // Erase any previous winner
                     if (val < 0) {
                         vm.gameData[key] = '';
                     }
-
-                    // Create player array for determining biggest loser
-                    playersArray.push(key);
                 }
             });
             vm.gameData[vm.winner] = total;
             vm.biggestLoser = getBiggestLoserOfGame(vm.gameData.id, playersArray, true);
+
+            // Get the next biggest loser for games with 6 players
+            if (vm.settings.numberOfPlayers == 6) {
+                playersArray.splice(playersArray.indexOf(vm.biggestLoser), 1);
+                vm.secondBiggestLoser = getBiggestLoserOfGame(vm.gameData.id, playersArray, true);
+
+                // Disable tied player highlight if two players are tied with the biggest score (i.e. two default losers)
+                if (numberOfPlayersWithBiggestScore == 2) {
+                    vm.tiedPlayers = [];
+                }
+            }
         }
     };
 
@@ -123,8 +148,8 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
         gameToCheck.biggestLoserPlayers = tempBiggestLoserArray;
 
         // Set the tied players of the current game to highlight in score table
-        if (isCurrentGame) { 
-            vm.tiedPlayers = tempBiggestLoserArray;
+        if (tempBiggestLoserArray.length > 1) { 
+            vm.tiedPlayers = vm.tiedPlayers.concat(tempBiggestLoserArray);
         }
 
         if (tempBiggestLoserArray.length > 1) {

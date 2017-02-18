@@ -38,11 +38,11 @@
             </div>
         </form>
 
-        <div ng-if="vm.settings.numberOfPlayers > 4">
+        <div ng-if="vm.settings.numberOfPlayers > 4 && vm.tiedPlayers.length > 1">
             <hr>
             <div class="alert alert-info">
                 <span class="glyphicon glyphicon-exclamation-sign"></span>
-                <span><strong>Sits out next round:</strong> {{ vm.players[vm.biggestLoser] }}</span>
+                <span><strong>Sits out next round:</strong> {{ vm.players[vm.biggestLoser] }}, {{ vm.players[vm.secondBiggestLoser] }}</span>
             </div>
 
             <hr>
