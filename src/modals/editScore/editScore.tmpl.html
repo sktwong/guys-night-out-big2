@@ -38,35 +38,39 @@
             </div>
         </form>
 
-        <div ng-if="vm.settings.numberOfPlayers > 4 && vm.tiedPlayers.length > 1">
+        <div ng-if="vm.settings.numberOfPlayers > 4">
             <hr>
             <div class="alert alert-info">
                 <span class="glyphicon glyphicon-exclamation-sign"></span>
-                <span><strong>Sits out next round:</strong> {{ vm.players[vm.biggestLoser] }}, {{ vm.players[vm.secondBiggestLoser] }}</span>
+                <span>
+                    <strong>Sits out next round:</strong>
+                    <span>{{ vm.players[vm.biggestLoser] }}</span><span ng-if="vm.secondBiggestLoser">, {{ vm.players[vm.secondBiggestLoser] }}</span>
+                </span>
             </div>
 
-            <hr>
-            <p><strong>Tiebreaker reference</strong></p>
-            <table class="table scores">
-                <thead>
-                    <tr class="players">
-                        <th>#</th>
-                        <th ng-repeat="(key, value) in vm.players"
-                            ng-class="{'alert-info': (vm.tiedPlayers.length > 1 && vm.tiedPlayers.indexOf(key) > -1)}">{{ value }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="scores" ng-repeat="score in vm.recentScores | limitTo: (-5) | orderBy: '' : true">
-                        <td class="column-number" ng-if="key == 'id'" ng-repeat="(key, value) in score">{{ value || '-' }}</td>
-                        <td ng-repeat="(key, value) in score" 
-                            ng-class="{ 'column-player-4': (vm.settings.numberOfPlayers == 4), 
-                                        'column-player-5': (vm.settings.numberOfPlayers == 5),
-                                        'alert-info': (score.biggestLoserPlayers.indexOf(key) > -1) }"
-                            ng-if="key.indexOf('player') > -1">{{ value || '-' }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div ng-if="vm.tiedPlayers.length > 1">
+                <p><strong>Tiebreaker reference</strong></p>
+                <table class="table scores">
+                    <thead>
+                        <tr class="players">
+                            <th>#</th>
+                            <th ng-repeat="(key, value) in vm.players"
+                                ng-class="{'alert-info': (vm.tiedPlayers.length > 1 && vm.tiedPlayers.indexOf(key) > -1)}">{{ value }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="scores" ng-repeat="score in vm.recentScores | limitTo: (-5) | orderBy: '' : true">
+                            <td class="column-number" ng-if="key == 'id'" ng-repeat="(key, value) in score">{{ value || '-' }}</td>
+                            <td ng-repeat="(key, value) in score" 
+                                ng-class="{ 'column-player-4': (vm.settings.numberOfPlayers == 4), 
+                                            'column-player-5': (vm.settings.numberOfPlayers == 5),
+                                            'alert-info': (score.biggestLoserPlayers.indexOf(key) > -1) }"
+                                ng-if="key.indexOf('player') > -1">{{ value || '-' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="modal-footer">

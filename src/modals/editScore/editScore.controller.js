@@ -145,14 +145,19 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
         });
 
         // Add reference point in score object for highlighting in template
-        gameToCheck.biggestLoserPlayers = tempBiggestLoserArray;
+        if (gameToCheck.biggestLoserPlayers) { 
+            gameToCheck.biggestLoserPlayers = gameToCheck.biggestLoserPlayers.concat(tempBiggestLoserArray);
+
+        } else {
+            gameToCheck.biggestLoserPlayers = tempBiggestLoserArray;
+        }
 
         // Set the tied players of the current game to highlight in score table
         if (tempBiggestLoserArray.length > 1) { 
             vm.tiedPlayers = vm.tiedPlayers.concat(tempBiggestLoserArray);
         }
 
-        if (tempBiggestLoserArray.length > 1) {
+        if (tempBiggestLoserArray.length > 1 && gameId > 1) {
             tempBiggestLoser = getBiggestLoserOfGame(gameId - 1, tempBiggestLoserArray, false);
 
         } else {
