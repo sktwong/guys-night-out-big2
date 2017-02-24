@@ -97,6 +97,7 @@ function Big2AppServiceFn(localStorageService, $filter) {
             'Marcus',
             'Rob',
             'Steve',
+            'Sunny',
             'Vince'
         ];
     }
