@@ -181,6 +181,18 @@ input::-webkit-inner-spin-button {
     margin-right: -100%;
 }
 
+#modal-edit-score .btn-scores .md-button {
+    top: -7px;
+    padding: 0 1px;
+    margin: 6px 2px;
+    width: 22px;
+    min-width: 22px;
+}
+
+#modal-edit-score .btn-scores .md-button.md-raised.md-primary {
+    background-color: #337ab7;
+}
+
 .three-diamonds-container {
     width: 32px;
     padding-left: 10px;

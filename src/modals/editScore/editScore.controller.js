@@ -167,6 +167,11 @@ function modalEditScoreControllerFn($scope, big2AppService, $uibModalInstance, d
         return tempBiggestLoser;
     }
 
+    $scope.updatePlayerScore = function(score, gameData, key) {
+        gameData[key] = score;
+        $scope.calculateWinningScore();
+    }
+
     $scope.close = function() {
         vm.gameData.timestamp = (new Date()).toJSON();
         delete vm.gameData.biggestLoserPlayers;

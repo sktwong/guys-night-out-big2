@@ -15,6 +15,17 @@
 
             <div class="form-group" ng-repeat="(key, value) in vm.gameData" ng-if="key.indexOf('player') > -1">
                 <label class="col-sm-2 control-label">{{ vm.players[key] }}</label>
+
+                <div class="col-sm-7 btn-scores">
+                    <md-button class="md-raised" 
+                        ng-repeat="score in [].constructor(14) track by $index"
+                        ng-class="{ 'md-primary': vm.gameData[key] == $index }"
+                        ng-click="updatePlayerScore($index, vm.gameData, key)">
+                        {{ $index }}
+                    </md-button>
+                </div>
+
+                <!--
                 <div class="col-sm-7 slider">
                     <div layout>
                         <md-slider flex md-discrete step="1" min="0" max="13" aria-label="rating"
@@ -25,6 +36,8 @@
                         </md-slider>
                     </div>
                 </div>
+                -->
+
                 <div class="col-sm-1 score text-center">{{ convertCardsToScore(vm.gameData[key]) }}</div>
                 <div class="col-sm-1">
                     <span class="col-sm-2 btn btn-default winner" 
