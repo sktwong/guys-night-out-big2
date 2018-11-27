@@ -185,8 +185,8 @@ input::-webkit-inner-spin-button {
     top: -7px;
     padding: 0 1px;
     margin: 6px 2px;
-    width: 22px;
-    min-width: 22px;
+    width: 23px;
+    min-width: 23px;
 }
 
 #modal-edit-score .btn-scores .md-button.md-raised.md-primary {
